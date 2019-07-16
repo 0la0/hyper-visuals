@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS-Markup Example</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #242424;
+        color: #CCC;
+        font-family: helvetica, arial, sans-serif;
+        font-size: 12px;
+        overflow: hidden;
+      }
+    </style>
+    <script src="./dist/psvizmarkup.js"></script>
+  </head>
+  <body>
+    <p>ps viz markup</p>
+    <ps-viz-scene>
+      <ps-viz-cube
+        position="0 0 0"
+        rotation="0 0 0"
+        scale="1 1 1"
+        color="0 0 1"
+        pos-vel="0 0 0"
+        rot-vel="0 0 0"
+        scale-vel="0 0 0"
+      >
+      </ps-viz-cube>
+    </ps-viz-scene>
+  </body>  
+</html>

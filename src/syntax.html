@@ -1,0 +1,16 @@
+<ps-viz-scene>
+  <ps-viz-repeat repeat="100 200 100" stride="1 20 addr(b)" modX="">
+    <ps-viz-animate position="0 2 10" reset="addr(b)">
+      <ps-viz-box position="0 1 20" size="1 2 4">
+      </ps-viz-box>
+    </ps-viz-animate>
+  </ps-viz-repeat>
+</ps-viz-scene>
+
+<ps-viz-scene>
+  <ps-viz-box
+    position="4*cos(time) 0 2"
+    pos-vel="sin(time*2) 4 0"
+  >
+  </ps-viz-box>
+</ps-viz-scene>

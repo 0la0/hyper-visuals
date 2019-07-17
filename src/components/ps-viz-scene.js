@@ -29,6 +29,7 @@ export default class PsDac extends PsVizBase {
         sceneWrapper.scene.add(graphicsObject.getThreeMesh());
       }
     };
+    this.lastAnimationTime = performance.now();
     this._animate = this.animate.bind(this);
     requestAnimationFrame(this._animate);
   }
@@ -38,7 +39,11 @@ export default class PsDac extends PsVizBase {
   }
 
   animate() {
-    this.graphicsObjects.forEach(g => g.update());
+    const now = performance.now();
+    const elapsedTime = now - this.lastAnimationTime;
+    const scaledTime = elapsedTime * 0.001;
+    this.lastAnimationTime = now;
+    this.graphicsObjects.forEach(g => g.update(scaledTime));
     sceneWrapper.render();
     requestAnimationFrame(this._animate);
   }

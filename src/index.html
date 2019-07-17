@@ -22,16 +22,33 @@
   <body>
     <p>ps viz markup</p>
     <ps-viz-scene>
-      <ps-viz-cube
-        position="0 0 0"
+      <ps-viz-cone
+        position="-10 -10 0"
         rotation="0 0 0"
         scale="1 1 1"
+        color="0.5 0 0.8"
+        pos-vel="0 0 0"
+        rot-vel="1 0 0"
+        scale-vel="0 0 0"
+      >
+      </ps-viz-cone>
+      <ps-viz-cube
+        position="10 10 0"
+        rotation="0 0 0"
+        scale="5 1 1"
         color="0 0 1"
         pos-vel="0 0 0"
-        rot-vel="0 0 0"
+        rot-vel="0 0 1"
         scale-vel="0 0 0"
       >
       </ps-viz-cube>
+      <ps-viz-repeat>
+        <ps-viz-cube
+          scale="2 2 2"
+          color="0 0.8 0.2"
+        >
+        </ps-viz-cube>
+      </ps-viz-repeat>
     </ps-viz-scene>
   </body>  
 </html>

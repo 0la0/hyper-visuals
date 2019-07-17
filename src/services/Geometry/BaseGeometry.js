@@ -37,16 +37,16 @@ export default class BaseGeometry {
     this.scaleVelocity.set(x, y, z);
   }
 
-  update() {
+  update(elapsedTime) {
     if (this.positionVelocity.length() !== 0) {
-      this.mesh.position.add(this.positionVelocity);
+      this.mesh.position.add(this.positionVelocity.clone().multiplyScalar(elapsedTime));
     }
     if (this.rotationVelocity.length() !== 0) {
-      const newRotation = this.mesh.rotation.toVector3().add(this.rotationVelocity);
+      const newRotation = this.mesh.rotation.toVector3().add(this.rotationVelocity.clone().multiplyScalar(elapsedTime));
       this.mesh.rotation.setFromVector3(newRotation);
     }
     if (this.scaleVelocity.length() !== 0) {
-      this.mesh.scale.add(this.scaleVelocity);
+      this.mesh.scale.add(this.scaleVelocity.clone().multiplyScalar(elapsedTime));
     }
   }
 

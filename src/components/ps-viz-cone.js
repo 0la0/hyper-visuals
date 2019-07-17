@@ -1,9 +1,9 @@
 import GeometryBase from './GeometryBase';
-import Box from '../services/Geometry/Box';
+import Cone from '../services/Geometry/Cone';
 
 export default class PsVizCube extends GeometryBase {
   static get tag() {
-    return 'ps-viz-cube';
+    return 'ps-viz-cone';
   }
 
   static get observedAttributes() {
@@ -12,9 +12,9 @@ export default class PsVizCube extends GeometryBase {
 
   connectedCallback() {
     super.connectedCallback();
-    console.log('ps-viz-cube connected');
+    console.log('ps-viz-cone connected');
 
-    this.geometry = new Box();
+    this.geometry = new Cone();
     this.paramMap = Object.assign({}, this.baseParams);
     super.setValuesFromAttributes(PsVizCube.observedAttributes);
 
@@ -26,7 +26,7 @@ export default class PsVizCube extends GeometryBase {
   }
 
   disconnectedCallback() {
-    console.log('ps-viz-cube disconnected');
+    console.log('ps-viz-cone disconnected');
     this.geometry.dispose();
   }
 

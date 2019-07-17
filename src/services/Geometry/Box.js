@@ -1,4 +1,4 @@
-import { BoxBufferGeometry, Color, FrontSide, Mesh, MeshLambertMaterial, Vector3, } from 'three';
+import { BoxBufferGeometry, FrontSide, MeshLambertMaterial } from 'three';
 import BaseGeomtry from './BaseGeometry';
 
 export default class Box extends BaseGeomtry {

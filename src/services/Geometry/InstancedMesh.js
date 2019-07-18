@@ -13,7 +13,7 @@ class GeoProperties {
 
 export default class Repeater {
   constructor(geometry, material, vars) {
-    const numInstances = vars.repeatX * vars.repeatY * vars.repeatZ;
+    const numInstances = vars.repeat.x * vars.repeat.y * vars.repeat.z;
     this.cluster = new InstancedMesh(
       geometry,
       material,
@@ -30,18 +30,18 @@ export default class Repeater {
   reset() {
     const _q = new Quaternion(1, 0, 0, 1);
 
-    const halfX = ((this.vars.repeatX * this.vars.strideX) / 2) - this.vars.position.x;
-    const halfY = ((this.vars.repeatY * this.vars.strideY) / 2) - this.vars.position.y;
-    const halfZ = ((this.vars.repeatZ * this.vars.strideZ) / 2) - this.vars.position.z;
+    const halfX = ((this.vars.repeat.x * this.vars.stride.x) / 2) - this.vars.position.x;
+    const halfY = ((this.vars.repeat.y * this.vars.stride.y) / 2) - this.vars.position.y;
+    const halfZ = ((this.vars.repeat.z * this.vars.stride.z) / 2) - this.vars.position.z;
 
     this.geoProperties.forEach((geoProperty, index) => {
-      const z = index % this.vars.repeatZ;
-      const y = Math.floor(index / this.vars.repeatZ) % this.vars.repeatY;
-      const x = Math.floor(index / (this.vars.repeatY * this.vars.repeatZ)) % this.vars.repeatX;
+      const z = index % this.vars.repeat.z;
+      const y = Math.floor(index / this.vars.repeat.z) % this.vars.repeat.y;
+      const x = Math.floor(index / (this.vars.repeat.y * this.vars.repeat.z)) % this.vars.repeat.x;
       geoProperty.position = new Vector3(
-        x * this.vars.strideX - halfX,
-        y * this.vars.strideY - halfY,
-        z * this.vars.strideZ - halfZ
+        x * this.vars.stride.x - halfX,
+        y * this.vars.stride.y - halfY,
+        z * this.vars.stride.z - halfZ
       );
       geoProperty.positionVelocity = this.vars.positionVelocity.clone();
       geoProperty.rotation = this.vars.rotation.clone();
@@ -54,9 +54,23 @@ export default class Repeater {
       this.cluster.setPositionAt(index , geoProperty.position);
       this.cluster.setScaleAt(index , geoProperty.scale);
     });
+    this.cluster.needsUpdate('position');
+    // this.cluster.needsUpdate('quaternion');
+    // this.cluster.needsUpdate('scale');
+    if (this.needsReset) {
+      this.needsReset = false;
+    }
+  }
+
+  setVars(vars) {
+    this.vars = vars;
+    this.needsReset = true;
   }
 
   update(elapsedTime) {
+    if (this.needsReset) {
+      this.reset();
+    }
     // TODO: short circuit
     this.geoProperties.forEach((geoProperty, index) => {
       const quat = this.cluster.getQuaternionAt(index);

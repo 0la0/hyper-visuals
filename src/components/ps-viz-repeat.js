@@ -1,18 +1,15 @@
 import PsVizBase from './ps-viz-base';
+import VectorAttribute from './VectorAttribute';
 import Repeater from '../services/Geometry/InstancedMesh';
 import { Vector3 } from 'three';
 
 const vars = {
-  repeatX: 30,
-  strideX: 1,
-  repeatY: 30,
-  strideY: 1,
-  repeatZ: 3,
-  strideZ: 1,
+  repeat: new Vector3(30, 30, 10),
+  stride: new Vector3(1, 1, 1),
   rotation: new Vector3(),
   position: new Vector3(),
   scale: new Vector3(1, 1, 1),
-  rotateVelocity: new Vector3(3, 3, 3),
+  rotateVelocity: new Vector3(),
   positionVelocity: new Vector3(),
   scaleVelocity: new Vector3(),
 };
@@ -23,14 +20,25 @@ export default class PsVizRepeat extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [];
+    return [ 'repeat', 'stride' ];
   }
 
   connectedCallback() {
     super.connectedCallback();
     console.log('ps-viz-repeat connected');
 
-    this.graphicsModel = {
+    this.paramMap = {
+      repeat: new VectorAttribute((x, y, z) => {
+        vars.repeat.set(x, y, z);
+        this.geo.setVars(vars);
+      }),
+      stride: new VectorAttribute((x, y, z) => {
+        vars.stride.set(x, y, z);
+        this.geo.setVars(vars);
+      }),
+    };
+
+    this.graphicsModel = {  
       connectTo: graphicsObject => {
         const { geometry, material } = graphicsObject.mesh;
         const updatedVars = {
@@ -39,9 +47,9 @@ export default class PsVizRepeat extends PsVizBase {
           rotation: graphicsObject.mesh.rotation.toVector3(),
           scale: graphicsObject.mesh.scale.clone(),
         };
-        const geo = new Repeater(geometry, material, updatedVars);
+        this.geo = new Repeater(geometry, material, updatedVars);
         if (this.parentNode.graphicsModel) {
-          this.parentNode.graphicsModel.connectTo(geo);
+          this.parentNode.graphicsModel.connectTo(this.geo);
         }
       }
     };

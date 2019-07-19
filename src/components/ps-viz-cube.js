@@ -20,7 +20,7 @@ export default class PsVizCube extends GeometryBase {
 
     requestAnimationFrame(() => {
       if (this.parentNode.graphicsModel) {
-        this.parentNode.graphicsModel.connectTo(this.geometry);
+        this.callbacks = this.parentNode.graphicsModel.connectTo(this.geometry);
       }
     });
   }
@@ -33,5 +33,8 @@ export default class PsVizCube extends GeometryBase {
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (!this.isMounted) { return; }
     this.paramMap[attrName].setValue(newVal);
+    if (this.callbacks.onChange) {
+      this.callbacks.onChange();
+    }
   }
 }

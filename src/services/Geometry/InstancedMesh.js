@@ -30,18 +30,19 @@ export default class Repeater {
   reset() {
     const _q = new Quaternion(1, 0, 0, 1);
 
-    const halfX = ((this.vars.repeat.x * this.vars.stride.x) / 2) - this.vars.position.x;
-    const halfY = ((this.vars.repeat.y * this.vars.stride.y) / 2) - this.vars.position.y;
-    const halfZ = ((this.vars.repeat.z * this.vars.stride.z) / 2) - this.vars.position.z;
+    const center = this.vars.repeat.clone()
+      .multiply(this.vars.stride)
+      .multiplyScalar(0.5)
+      .sub(this.vars.position);
 
     this.geoProperties.forEach((geoProperty, index) => {
       const z = index % this.vars.repeat.z;
       const y = Math.floor(index / this.vars.repeat.z) % this.vars.repeat.y;
       const x = Math.floor(index / (this.vars.repeat.y * this.vars.repeat.z)) % this.vars.repeat.x;
       geoProperty.position = new Vector3(
-        x * this.vars.stride.x - halfX,
-        y * this.vars.stride.y - halfY,
-        z * this.vars.stride.z - halfZ
+        x * this.vars.stride.x - center.x,
+        y * this.vars.stride.y - center.y,
+        z * this.vars.stride.z - center.z
       );
       geoProperty.positionVelocity = this.vars.positionVelocity.clone();
       geoProperty.rotation = this.vars.rotation.clone();

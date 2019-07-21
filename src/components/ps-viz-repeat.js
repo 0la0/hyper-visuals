@@ -20,7 +20,7 @@ export default class PsVizRepeat extends PsVizBase {
       rotation: new Vector3(),
       position: new Vector3(),
       scale: new Vector3(1, 1, 1),
-      rotateVelocity: new Vector3(),
+      rotationVelocity: new Vector3(),
       positionVelocity: new Vector3(),
       scaleVelocity: new Vector3(),
     };
@@ -56,11 +56,15 @@ export default class PsVizRepeat extends PsVizBase {
 
     this.graphicsModel = {  
       connectTo: graphicsObject => {
+        console.log('graphicsObject', graphicsObject)
         const { geometry, material } = graphicsObject.mesh;
         
         this.vars.position = graphicsObject.mesh.position;
-        this.vars.rotation = graphicsObject.mesh.rotation.toVector3();
+        this.vars.rotation = graphicsObject.mesh.rotation;
         this.vars.scale = graphicsObject.mesh.scale;
+        this.vars.positionVelocity = graphicsObject.positionVelocity;
+        this.vars.rotationVelocity = graphicsObject.rotationVelocity;
+        this.vars.scaleVelocity = graphicsObject.scaleVelocity;
 
         this.geo = new Repeater(geometry, material, this.vars);
         if (this.parentNode.graphicsModel) {
@@ -83,5 +87,9 @@ export default class PsVizRepeat extends PsVizBase {
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (!this.isMounted) { return; }
     this.paramMap[attrName].setValue(newVal);
+  }
+
+  reset() {
+    this.geo.reset();
   }
 }

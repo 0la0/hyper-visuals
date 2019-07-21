@@ -8,6 +8,7 @@ class GeoProperties {
     this.rotation = new Vector3(),
     this.rotationVelocity = new Vector3(),
     this.scale = new Vector3();
+    this.scaleVelocity = new Vector3();
   }
 }
 
@@ -29,7 +30,6 @@ export default class Repeater {
 
   reset() {
     const _q = new Quaternion(1, 0, 0, 1);
-
     const center = this.vars.repeat.clone()
       .multiply(this.vars.stride)
       .multiplyScalar(0.5)
@@ -46,18 +46,17 @@ export default class Repeater {
       );
       geoProperty.positionVelocity = this.vars.positionVelocity.clone();
       geoProperty.rotation = this.vars.rotation.clone();
-      geoProperty.rotationVelocity = this.vars.rotateVelocity.clone();
+      geoProperty.rotationVelocity = this.vars.rotationVelocity.clone();
       geoProperty.scale = this.vars.scale.clone();
-    });
+      geoProperty.scaleVelocity = this.vars.scaleVelocity.clone();
 
-    this.geoProperties.forEach((geoProperty, index) => {
       this.cluster.setQuaternionAt(index , _q.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ')));
       this.cluster.setPositionAt(index , geoProperty.position);
       this.cluster.setScaleAt(index , geoProperty.scale);
     });
     this.cluster.needsUpdate('position');
-    // this.cluster.needsUpdate('quaternion');
-    // this.cluster.needsUpdate('scale');
+    this.cluster.needsUpdate('quaternion');
+    this.cluster.needsUpdate('scale');
     if (this.needsReset) {
       this.needsReset = false;
     }
@@ -75,12 +74,15 @@ export default class Repeater {
     // TODO: short circuit
     this.geoProperties.forEach((geoProperty, index) => {
       const quat = this.cluster.getQuaternionAt(index);
-      geoProperty.rotation.add(geoProperty.rotationVelocity.clone().multiplyScalar(elapsedTime * 0.1));
+      const rotationDiff = geoProperty.rotationVelocity.clone().multiplyScalar(elapsedTime * 0.1);
+      geoProperty.rotation.setFromVector3(geoProperty.rotation.toVector3().add(rotationDiff));
       this.cluster.setQuaternionAt(index, quat.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ')));
-      // this.cluster.setPositionAt(index, geoProperty.position.add(geoProperty.positionVelocity.clone().multiplyScalar(elapsedTime * 0.1)));
+      this.cluster.setPositionAt(index, geoProperty.position.add(geoProperty.positionVelocity.clone().multiplyScalar(elapsedTime)));
+      this.cluster.setScaleAt(index, geoProperty.scale.add(geoProperty.scaleVelocity.clone().multiplyScalar(elapsedTime)));
     });
     this.cluster.needsUpdate('quaternion');
-    // this.cluster.needsUpdate('position');
+    this.cluster.needsUpdate('position');
+    this.cluster.needsUpdate('scale');
   }
 
   dispose() {

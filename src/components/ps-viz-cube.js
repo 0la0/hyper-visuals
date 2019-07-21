@@ -33,8 +33,6 @@ export default class PsVizCube extends GeometryBase {
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (!this.isMounted) { return; }
     this.paramMap[attrName].setValue(newVal);
-    if (this.callbacks.onChange) {
-      this.callbacks.onChange();
-    }
+    this.callbacks.onChange && this.callbacks.onChange();
   }
 }

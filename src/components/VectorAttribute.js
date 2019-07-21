@@ -7,8 +7,12 @@ export default class VectorAttribute {
   setValue(stringValue) {
     const [ xStr, yStr, zStr ] = stringValue.trim().split(/\s+/);
     const x = parseFloat(xStr, 10);
-    const y = parseFloat(yStr, 10);
-    const z = parseFloat(zStr, 10);
-    this._setter(x, y, z);
+    if (yStr === undefined && zStr === undefined) {
+      this._setter(x, x, x);
+    } else {
+      const y = parseFloat(yStr, 10);
+      const z = parseFloat(zStr, 10);
+      this._setter(x, y, z);
+    }
   }
 }

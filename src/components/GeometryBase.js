@@ -19,7 +19,6 @@ export default class GeometryBase extends PsVizBase {
   }
 
   setValuesFromAttributes(observedAttributes) {
-    // console.log('here', [this.constructor.name].observedAttributes)
     observedAttributes
       .filter(attrName => this.hasAttribute(attrName))
       .forEach(attrName => this.paramMap[attrName].setValue(this.getAttribute(attrName)));

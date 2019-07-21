@@ -1,5 +1,5 @@
 import PsVizBase from './ps-viz-base';
-import sceneWrapper from '../services/Scene';
+import SceneModel from '../services/SceneModel';
 
 // class GraphicsModel {
 //   constructor(threeEntity) {
@@ -13,7 +13,8 @@ import sceneWrapper from '../services/Scene';
 //   }
 // }
 
-export default class PsDac extends PsVizBase {
+// TODO: embedded attribute
+export default class PsVizScene extends PsVizBase {
   static get tag() {
     return 'ps-viz-scene';
   }
@@ -21,12 +22,22 @@ export default class PsDac extends PsVizBase {
   connectedCallback() {
     super.connectedCallback();
     console.log('ps-viz-scene connected');
+    let canvasContainer;
+    const isEmbedded = this.hasAttribute('embed');
+    if (isEmbedded) {
+      canvasContainer = document.createElement('div');
+      canvasContainer.style.setProperty('width', '100%');
+      canvasContainer.style.setProperty('height', '100%');
+      canvasContainer.setAttribute('livedomignore', '');
+      this.appendChild(canvasContainer);
+    }
     this.graphicsObjects = new Set();
-    // this.graphicsModel = new GraphicsModel(sceneWrapper.scene);
+    this.sceneModel = new SceneModel(isEmbedded ? canvasContainer : undefined);
+    
     this.graphicsModel = {
       connectTo: graphicsObject => {
         this.graphicsObjects.add(graphicsObject);
-        sceneWrapper.scene.add(graphicsObject.getThreeMesh());
+        this.sceneModel.scene.add(graphicsObject.getThreeMesh());
       }
     };
     this.lastAnimationTime = performance.now();
@@ -44,7 +55,7 @@ export default class PsDac extends PsVizBase {
     const scaledTime = elapsedTime * 0.001;
     this.lastAnimationTime = now;
     this.graphicsObjects.forEach(g => g.update(scaledTime));
-    sceneWrapper.render();
+    this.sceneModel.render();
     requestAnimationFrame(this._animate);
   }
 }

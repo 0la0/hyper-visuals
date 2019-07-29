@@ -43,4 +43,10 @@ export default class SceneModel {
   render() {
     this.renderer.render(this.scene, this.camera);
   }
+
+  setSize(width, height) {
+    const widthHeightRatio = width / height;
+    this.camera.aspect = widthHeightRatio;
+    this.renderer.setSize(width, height);
+  }
 }

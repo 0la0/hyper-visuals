@@ -42,7 +42,7 @@ export default class PsVizScene extends PsVizBase {
     };
     this.lastAnimationTime = performance.now();
     this._animate = this.animate.bind(this);
-    requestAnimationFrame(this._animate);
+    this.isOn = false;
   }
 
   disconnectedCallback() {
@@ -50,6 +50,7 @@ export default class PsVizScene extends PsVizBase {
   }
 
   animate() {
+    if (!this.isOn) { return; }
     const now = performance.now();
     const elapsedTime = now - this.lastAnimationTime;
     const scaledTime = elapsedTime * 0.001;
@@ -57,5 +58,18 @@ export default class PsVizScene extends PsVizBase {
     this.graphicsObjects.forEach(g => g.update(scaledTime));
     this.sceneModel.render();
     requestAnimationFrame(this._animate);
+  }
+
+  start() {
+    this.isOn = true;
+    requestAnimationFrame(this._animate);
+  }
+
+  stop() {
+    this.isOn = false;
+  }
+
+  setSize(width, height) {
+    this.sceneModel.setSize(width, height);
   }
 }

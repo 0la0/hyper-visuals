@@ -16,19 +16,39 @@
         font-size: 12px;
         overflow: hidden;
       }
+      .toggle-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 8px;
+        margin: 8px;
+        background: unset;
+        color: #CCC;
+        border: 2px solid #CCC;
+        border-radius: 4px;
+        cursor: pointer;
+      }
     </style>
     <script src="./dist/psvizmarkup.js"></script>
+    <script>
+      let isOn = false;
+      function toggle() {
+        isOn = !isOn;
+        const scene = document.getElementById('scene');
+        isOn ? scene.start() : scene.stop();
+      }
+    </script>
   </head>
   <body>
-    <p>ps viz markup</p>
-    <ps-viz-scene embed>
+    <button class="toggle-button" onclick="toggle(event)">toggle</button>
+    <ps-viz-scene embed id="scene">
       <ps-viz-cone
         position="-10 -10 0"
-        rotation="0 0 0"
+        rotation="addr(a)"
         scale="1 1 1"
         color="0.5 0 0.8"
         pos-vel="0 0 0"
-        rot-vel="1 0 0"
+        rot-vel="0 0 0"
         scale-vel="0 0 0"
       >
       </ps-viz-cone>

@@ -32,12 +32,6 @@ export default class SceneModel {
     this.camera.lookAt(new Vector3(0, 0, 0));
     this.scene.add(ambientLight);
     parentElement.appendChild(renderer.domElement);
-
-    // if (rendererContainer instanceof HTMLElement) {
-    //   rendererContainer.appendChild(renderer.domElement);
-    // } else {
-    //   document.body.appendChild(renderer.domElement);
-    // }
   }
 
   render() {

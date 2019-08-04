@@ -1,7 +1,7 @@
 {
   "name": "ps-viz-markup",
   "version": "0.0.1",
-  "description": "3D graphics pattern generation with markup",
+  "description": "3D graphics and pattern generation with HTML",
   "main": "dist/psvizmarkup.js",
   "scripts": {
     "build": "webpack -r esm --mode=development --content-base src",

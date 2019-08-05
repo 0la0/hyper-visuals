@@ -1,5 +1,5 @@
 import PsVizBase from './ps-viz-base';
-import VectorAttribute from './VectorAttribute';
+// import VectorAttribute from './VectorAttribute';
 import Repeater from '../services/Geometry/InstancedMesh';
 import { Vector3 } from 'three';
 

@@ -55,7 +55,7 @@ export default class PsVizScene extends PsVizBase {
     const elapsedTime = now - this.lastAnimationTime;
     const scaledTime = elapsedTime * 0.001;
     this.lastAnimationTime = now;
-    this.graphicsObjects.forEach(g => g.update(scaledTime));
+    this.graphicsObjects.forEach(g => g.update(scaledTime, now));
     this.sceneModel.render();
     requestAnimationFrame(this._animate);
   }

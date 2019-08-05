@@ -15,9 +15,9 @@ export default class PsVizCube extends GeometryBase {
     console.log('ps-viz-cube connected');
 
     this.geometry = new Box();
-    this.paramMap = Object.assign({}, this.baseParams);
-    super.setValuesFromAttributes(PsVizCube.observedAttributes);
+    // this.paramMap = Object.assign({}, this.baseParams);
 
+    super.setValuesFromAttributes(PsVizCube.observedAttributes);
     requestAnimationFrame(() => {
       if (this.parentNode.graphicsModel) {
         this.callbacks = this.parentNode.graphicsModel.connectTo(this.geometry);
@@ -25,14 +25,17 @@ export default class PsVizCube extends GeometryBase {
     });
   }
 
+  // TODO: move to super
   disconnectedCallback() {
     console.log('ps-viz-cube disconnected');
     this.geometry.dispose();
   }
 
+  // TODO: move to super
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (!this.isMounted) { return; }
-    this.paramMap[attrName].setValue(newVal);
+    this.geometry.setParam(attrName, newVal);
+    // this.paramMap[attrName].setValue(newVal);
     this.callbacks && this.callbacks.onChange();
   }
 }

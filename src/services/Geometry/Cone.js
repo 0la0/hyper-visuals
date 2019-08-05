@@ -7,5 +7,6 @@ export default class Cone extends BaseGeomtry {
       new ConeBufferGeometry(5, 20, 32),
       new MeshLambertMaterial({ color: 0x006699, side: FrontSide })
     );
+    this.paramMap = Object.assign({}, this._baseParams);
   }
 }

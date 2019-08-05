@@ -7,5 +7,6 @@ export default class Box extends BaseGeomtry {
       new BoxBufferGeometry(1, 1, 1),
       new MeshLambertMaterial({ color: 0x006699, side: FrontSide })
     );
+    this.paramMap = Object.assign({}, this._baseParams);
   }
 }

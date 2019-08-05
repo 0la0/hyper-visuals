@@ -1,19 +1,67 @@
 const PARENTHESES = /\(([^)]+)\)/;
 
+
+class TestEventEmitter {
+  constructor() {
+    this.isOn = false;
+  }
+
+  start() {
+    this.isOn = true;
+    this.loop();
+  }
+
+  stop() {
+    this.isOn = false;
+  }
+
+  loop() {
+    if (!this.isOn) {
+      return;
+    }
+    const now = performance.now();
+    const eventData1 = {
+      address: 'a',
+      note: Math.random(),
+      time: { audio: 0, midi: now, },
+      interpolate: false,
+    };
+    const eventData2 = {
+      address: 'a',
+      note: Math.random(),
+      time: { audio: 0, midi: now  + 1000, },
+      interpolate: false,
+    };
+    document.dispatchEvent(new CustomEvent('GLOBAL_EVENT', { detail: eventData1 }));
+    document.dispatchEvent(new CustomEvent('GLOBAL_EVENT', { detail: eventData2 }));
+    setTimeout(this.loop.bind(this), 2000);
+  }
+}
+
+const timer = new TestEventEmitter();
+timer.start();
+
 class MessageAttribute {
   constructor(addr, cb = (() => {})) {
     this.addr = addr;
+    this.eventHandler = (event) => {
+      const message = event.detail;
+      this.cb(message.note);
+    };
     this.cb = cb;
-    
-    // setInterval(() => {
-    //   console.log('simulate addr change', Math.random())
-    //   const simulatedValue = Math.random();
-    //   this.cb(simulatedValue);
-    // }, 2000);
+    document.addEventListener('GLOBAL_EVENT', this.eventHandler);
   }
 
   setCallback(cb) {
     this.cb = cb;
+  }
+
+  update(performanceTime) {
+    console.log('update MessageAttribute', performanceTime);
+  }
+
+  dispose() {
+    document.removeEventListener('GLOBAL_EVENT', this.eventHandler);
   }
 }
 
@@ -43,6 +91,7 @@ export default class VectorAttribute {
     this.realX;
     this.realY;
     this.realZ;
+    this.dynamicParams = {};
   }
 
   _setAllAttributes() {
@@ -56,11 +105,15 @@ export default class VectorAttribute {
     if (yStr === undefined && zStr === undefined) {
       if (x instanceof MessageAttribute) {
         x.setCallback((dynamicValue) => {
+          console.log('...', dynamicValue)
           this.realX = dynamicValue;
           this.realY = dynamicValue;
           this.realZ = dynamicValue;
           this._setAllAttributes();
         });
+        this.dynamicParams.x = x;
+        this.dynamicParams.y = null;
+        this.dynamicParams.z = null;
         return;
       }
       this.realX = x;
@@ -78,8 +131,10 @@ export default class VectorAttribute {
         this.realX = dynamicValue;
         this._setAllAttributes();
       });
+      this.dynamicParams.x = x;
     } else {
       this.realX = x;
+      this.dynamicParams.x = null;
     }
 
     if (y instanceof MessageAttribute) {
@@ -87,8 +142,10 @@ export default class VectorAttribute {
         this.realY = dynamicValue;
         this._setAllAttributes();
       });
+      this.dynamicParams.y = y;
     } else {
       this.realY = y;
+      this.dynamicParams.y = null;
     }
 
     if (z instanceof MessageAttribute) {
@@ -96,10 +153,18 @@ export default class VectorAttribute {
         this.realZ = dynamicValue;
         this._setAllAttributes();
       });
+      this.dynamicParams.z = z;
     } else {
       this.realZ = z;
+      this.dynamicParams.z = null;
     }
     
     this._setAllAttributes();
+  }
+
+  update(elapsedTime, performanceTime) {
+    this.dynamicParams.x && this.dynamicParams.x.update(performanceTime);
+    this.dynamicParams.y && this.dynamicParams.y.update(performanceTime);
+    this.dynamicParams.z && this.dynamicParams.z.update(performanceTime);
   }
 }

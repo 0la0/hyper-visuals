@@ -57,7 +57,6 @@ export default class BaseGeometry {
   }
 
   update(elapsedTime, performanceTime) {
-    console.log('upate', elapsedTime, performanceTime);
     if (this.positionVelocity.length() !== 0) {
       this.mesh.position.add(this.positionVelocity.clone().multiplyScalar(elapsedTime));
     }

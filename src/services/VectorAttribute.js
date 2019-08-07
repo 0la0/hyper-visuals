@@ -1,6 +1,5 @@
 import AnimationScheduler, { AnimationSchedule } from './AnimationScheduler';
-
-const PARENTHESES = /\(([^)]+)\)/;
+import { parseParens } from './ParamParser';
 
 // class TestEventEmitter {
 //   constructor() {
@@ -74,7 +73,7 @@ class MessageAttribute {
     this.cb = cb;
   }
 
-  update(performanceTime) {
+  update(elapsedTime, performanceTime) {
     const scheduledValue = this.animationScheduler.getLatestSchedule(performanceTime);
     if (scheduledValue === false) {
       return;
@@ -82,9 +81,24 @@ class MessageAttribute {
     this.cb(scheduledValue);
   }
 
-  dispose() {
-    document.removeEventListener('GLOBAL_EVENT', this.eventHandler);
+  dispose() {}
+}
+
+class EvaluatedAttribute {
+  constructor(stringValue, cb = (() => {})) {
+    this.stringValue = stringValue;
+    this.cb = cb;
   }
+
+  setCallback(cb) {
+    this.cb = cb;
+  }
+
+  update(elapsedTime, performanceTime) {
+    console.log('EvaluatedAttribute.performanceTime', performanceTime);
+  }
+
+  dispose() {}
 }
 
 function numericOrDefault(stringValue = '', defaultValue = 0) {
@@ -98,11 +112,19 @@ function numericOrDefault(stringValue = '', defaultValue = 0) {
 function parseAttribute(stringValue) {
   const numericValue = numericOrDefault(stringValue, 0);
   if (stringValue.indexOf('addr') === 0) {
-    const match = stringValue.match(PARENTHESES);
-    if (!match) {
+    const parsedAddress = parseParens(stringValue);
+    if (!parsedAddress.ok) {
       return numericValue;
     }
-    return new MessageAttribute(match[1]);
+    return new MessageAttribute(parsedAddress.value);
+  }
+  if (stringValue.indexOf('fn') === 0) {
+    const parsedFn = parseParens(stringValue);
+    if (!parsedFn.ok) {
+      return numericValue;
+    }
+    new EvaluatedAttribute(parsedFn.value);
+    return numericValue;
   }
   return numericValue;
 }
@@ -184,8 +206,8 @@ export default class VectorAttribute {
   }
 
   update(elapsedTime, performanceTime) {
-    this.dynamicParams.x && this.dynamicParams.x.update(performanceTime);
-    this.dynamicParams.y && this.dynamicParams.y.update(performanceTime);
-    this.dynamicParams.z && this.dynamicParams.z.update(performanceTime);
+    this.dynamicParams.x && this.dynamicParams.x.update(elapsedTime, performanceTime);
+    this.dynamicParams.y && this.dynamicParams.y.update(elapsedTime, performanceTime);
+    this.dynamicParams.z && this.dynamicParams.z.update(elapsedTime, performanceTime);
   }
 }

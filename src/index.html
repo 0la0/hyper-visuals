@@ -43,6 +43,16 @@
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
     <ps-viz-scene embed id="scene">
       <ps-viz-cone
+        position="fn(10*saw(time)) -10 0"
+        rotation="addr(a)"
+        scale="1 1 1"
+        color="0.5 0 0.8"
+        pos-vel="0 0 0"
+        rot-vel="0 0 0"
+        scale-vel="0 0 0"
+      >
+      </ps-viz-cone>
+      <ps-viz-cone
         position="fn(10*sin(time)) -10 0"
         rotation="addr(a)"
         scale="1 1 1"

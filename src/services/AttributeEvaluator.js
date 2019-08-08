@@ -1,26 +1,11 @@
-const exposedApi = [].concat(patternFunctions, eventGraphFunctions, utilFunctions);
-const apiNamespace = exposedApi.map(fn => fn.name).join(', ');
+import { continuousApi } from './ContinuousApi';
 
-// example functions:
-// 10 * sin(time)
-// 4 * cos(time * 2)
-// 2 * squ(time)
-// tri(time)
-// tan(time) 
-
-const exposedApi = [].concat(patternFunctions, eventGraphFunctions, utilFunctions);
-const apiNamespace = exposedApi.map(fn => fn.name).join(', ');
+const exposedApi = continuousApi.map(fn => fn.fn);
+const apiNamespace = continuousApi.map(fn => fn.name).join(', ');
 
 export function buildFunctionFromUserInput(userInputString) {
-  return Function(`
+  return new Function(`
     'use strict';
-    return (${apiNamespace}) => {
-      const sequences = [];
-      const audioGraphInlets = [];
-      const seq = (...args) => sequences.push(args);
-      ${exposedEventGraph}
-      ${userInputString}
-      return { sequences, audioGraphInlets };
-    };
+    return (${apiNamespace}) => (time) => ${userInputString};
   `)()(...exposedApi);
 }

@@ -1,5 +1,6 @@
 import AnimationScheduler, { AnimationSchedule } from './AnimationScheduler';
 import { parseParens } from './ParamParser';
+import { buildFunctionFromUserInput } from './AttributeEvaluator';
 
 // class TestEventEmitter {
 //   constructor() {
@@ -84,10 +85,11 @@ class MessageAttribute {
   dispose() {}
 }
 
-class EvaluatedAttribute {
+class ContinuousAttribute {
   constructor(stringValue, cb = (() => {})) {
     this.stringValue = stringValue;
     this.cb = cb;
+    this.evalFunction = buildFunctionFromUserInput(stringValue);
   }
 
   setCallback(cb) {
@@ -95,7 +97,9 @@ class EvaluatedAttribute {
   }
 
   update(elapsedTime, performanceTime) {
-    console.log('EvaluatedAttribute.performanceTime', performanceTime);
+    const testTime = performanceTime * 0.005;
+    const evaluated = this.evalFunction(testTime);
+    this.cb(evaluated);
   }
 
   dispose() {}
@@ -123,8 +127,8 @@ function parseAttribute(stringValue) {
     if (!parsedFn.ok) {
       return numericValue;
     }
-    new EvaluatedAttribute(parsedFn.value);
-    return numericValue;
+    return new ContinuousAttribute(parsedFn.value);
+    // return numericValue
   }
   return numericValue;
 }
@@ -147,7 +151,7 @@ export default class VectorAttribute {
     const x = parseAttribute(xStr);
     
     if (yStr === undefined && zStr === undefined) {
-      if (x instanceof MessageAttribute) {
+      if (x instanceof MessageAttribute || x instanceof ContinuousAttribute) {
         x.setCallback((dynamicValue) => {
           this.realX = dynamicValue;
           this.realY = dynamicValue;
@@ -169,7 +173,7 @@ export default class VectorAttribute {
     const y = parseAttribute(yStr);
     const z = parseAttribute(zStr);
 
-    if (x instanceof MessageAttribute) {
+    if (x instanceof MessageAttribute || x instanceof ContinuousAttribute) {
       x.setCallback((dynamicValue) => {
         this.realX = dynamicValue;
         this._setAllAttributes();
@@ -180,7 +184,7 @@ export default class VectorAttribute {
       this.dynamicParams.x = null;
     }
 
-    if (y instanceof MessageAttribute) {
+    if (y instanceof MessageAttribute || y instanceof ContinuousAttribute) {
       y.setCallback((dynamicValue) => {
         this.realY = dynamicValue;
         this._setAllAttributes();
@@ -191,7 +195,7 @@ export default class VectorAttribute {
       this.dynamicParams.y = null;
     }
 
-    if (z instanceof MessageAttribute) {
+    if (z instanceof MessageAttribute || z instanceof ContinuousAttribute) {
       z.setCallback((dynamicValue) => {
         this.realZ = dynamicValue;
         this._setAllAttributes();

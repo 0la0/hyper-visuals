@@ -1,5 +1,3 @@
-const PARENTHESES = /\(([^)]+)\)/;
-
 export function parseParens(stringValue) {
   const index1 = stringValue.indexOf('(');
   const index2 = stringValue.lastIndexOf(')');

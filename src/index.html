@@ -52,7 +52,7 @@
         scale-vel="0 0 0"
       >
       </ps-viz-cone>
-      <ps-viz-Triangle
+      <ps-viz-plane
         position="fn(10*sin(time)) -10 0"
         rotation="addr(a)"
         scale="1 1 1"
@@ -61,7 +61,7 @@
         rot-vel="0.7 1 0.9"
         scale-vel="0 0 0"
       >
-      </ps-viz-Triangle>
+      </ps-viz-plane>
       <ps-viz-ring
         position="10 10 0"
         rotation="0 0 0"
@@ -84,6 +84,15 @@
         >
         </ps-viz-triangle>
       </ps-viz-repeat>
+      <ps-viz-light
+        position="fn(50*sin(time)) 0 0"
+        color="1 1 1"
+      >
+      </ps-viz-light>
+      <ps-viz-background
+        color="1 0 1"
+      >
+      </ps-viz-background>
     </ps-viz-scene>
   </body>  
 </html>

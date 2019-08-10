@@ -1,25 +1,21 @@
 import PsVizBase from './ps-viz-base';
-import SceneModel from '../services/SceneModel';
+// import SceneModel from '../services/SceneModel';
+import sceneManager from '../services/SceneManager';
 
-// class GraphicsModel {
-//   constructor(threeEntity) {
-//     this.threeEntity = threeEntity;
-//   }
+let instanceIsConnected = false;
 
-//   connectTo(child) {
-//     console.log('connect ...', child);
-//     this.threeEntity.add(child);
-//     console.log(this);
-//   }
-// }
-
-// TODO: embedded attribute
 export default class PsVizScene extends PsVizBase {
   static get tag() {
     return 'ps-viz-scene';
   }
 
   connectedCallback() {
+    if (instanceIsConnected) {
+      console.error('Error, cannot have multiple ps-viz-scene');
+      return;
+    } else {
+      instanceIsConnected = true;
+    }
     super.connectedCallback();
     console.log('ps-viz-scene connected');
     let canvasContainer;
@@ -32,12 +28,14 @@ export default class PsVizScene extends PsVizBase {
       this.appendChild(canvasContainer);
     }
     this.graphicsObjects = new Set();
-    this.sceneModel = new SceneModel(isEmbedded ? canvasContainer : undefined);
+    sceneManager.buildScene(isEmbedded ? canvasContainer : undefined);
+    // this.sceneModel = new SceneModel(isEmbedded ? canvasContainer : undefined);
     
     this.graphicsModel = {
       connectTo: graphicsObject => {
         this.graphicsObjects.add(graphicsObject);
-        this.sceneModel.scene.add(graphicsObject.getThreeMesh());
+        sceneManager.addToScene(graphicsObject.getThreeMesh());
+        // this.sceneModel.scene.add(graphicsObject.getThreeMesh());
       }
     };
     this.lastAnimationTime = performance.now();
@@ -47,6 +45,7 @@ export default class PsVizScene extends PsVizBase {
 
   disconnectedCallback() {
     console.log('ps-viz-scene disconnected');
+    instanceIsConnected = false;
   }
 
   animate() {
@@ -56,7 +55,8 @@ export default class PsVizScene extends PsVizBase {
     const scaledTime = elapsedTime * 0.001;
     this.lastAnimationTime = now;
     this.graphicsObjects.forEach(g => g.update(scaledTime, now));
-    this.sceneModel.render();
+    // this.sceneModel.render();
+    sceneManager.render();
     requestAnimationFrame(this._animate);
   }
 
@@ -70,6 +70,7 @@ export default class PsVizScene extends PsVizBase {
   }
 
   setSize(width, height) {
-    this.sceneModel.setSize(width, height);
+    // this.sceneModel.setSize(width, height);
+    sceneManager.setSize();
   }
 }

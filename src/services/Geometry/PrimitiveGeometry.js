@@ -117,8 +117,9 @@ export class Triangle extends BaseGeomtry {
       -size, -size, 0,
       -size, size, 0,
       size, size, 0
-    ])
-    triangleGeometry.addAttribute('position', new BufferAttribute(positions, 3))
+    ]);
+    triangleGeometry.addAttribute('position', new BufferAttribute(positions, 3));
+    triangleGeometry.computeVertexNormals();
     return triangleGeometry;
   }
 

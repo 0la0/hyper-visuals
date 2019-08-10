@@ -1,7 +1,4 @@
-import { continuousApi } from './ContinuousApi';
-
-const exposedApi = continuousApi.map(fn => fn.fn);
-const apiNamespace = continuousApi.map(fn => fn.name).join(', ');
+import { exposedApi, apiNamespace,  } from './ContinuousApi';
 
 export function buildFunctionFromUserInput(userInputString) {
   return new Function(`

@@ -1,5 +1,4 @@
 const TWO_PI = 2 * Math.PI;
-
 const period = Math.PI;
 const amplitude = 2;
 
@@ -18,10 +17,5 @@ function buildFunction(name) {
   } }[scopedFuncitonName];
 }
 
-export const continuousApi = [
-  'cos',
-  'sin',
-  'squ',
-  'saw',
-  'tri',
-].map(name => ({ name, fn: buildFunction(name) }));
+export const exposedApi = Object.keys(fnBuilder).map(name => buildFunction(name));
+export const apiNamespace = Object.keys(fnBuilder).join(', ');

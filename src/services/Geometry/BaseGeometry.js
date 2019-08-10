@@ -13,6 +13,7 @@ export default class BaseGeometry {
       rotation: new VectorAttribute(this.setRotation.bind(this)),
       scale: new VectorAttribute(this.setScale.bind(this)),
       color: new VectorAttribute(this.setColor.bind(this)),
+      // TODO: these can probably be replaced with continuous attributes
       'pos-vel': new VectorAttribute(this.setPositionVelocity.bind(this)),
       'rot-vel': new VectorAttribute(this.setRotationVelocity.bind(this)),
       'scale-vel': new VectorAttribute(this.setScaleVelocity.bind(this)),
@@ -27,7 +28,6 @@ export default class BaseGeometry {
     this.paramMap[name].setValue(value);
   }
 
-  // TODO: remove setters
   setPosition(x, y, z) {
     this.mesh.position.set(x, y, z);
   }

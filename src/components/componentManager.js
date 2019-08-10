@@ -1,14 +1,11 @@
-import PsVizCone from './ps-viz-cone';
-import PsVizCube from './ps-viz-cube';
+import PrimitiveGeometryComponents from './PrimitiveGeometryComponents';
 import PsVizRepeat from './ps-viz-repeat';
 import PsVizScene from './ps-viz-scene';
 
-export const components = {
-  PsVizCone,
-  PsVizCube,
+export const components = Object.assign({}, PrimitiveGeometryComponents, {
   PsVizRepeat,
   PsVizScene,
-};
+});
 
 export function defineComponents() {
   const componentList = Object.values(components);

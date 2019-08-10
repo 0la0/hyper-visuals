@@ -1,5 +1,6 @@
 import { Euler, Quaternion, Vector3 } from 'three';
 import InstancedMesh from './InstanceMeshProvider';
+import VectorAttribute from '../Attribute/VectorAttribute';
 
 class GeoProperties {
   constructor() {
@@ -25,6 +26,10 @@ export default class Repeater {
     );
     this.vars = vars;
     this.geoProperties = new Array(numInstances).fill(null).map(_ => new GeoProperties());
+    this.paramMap = {
+      repeat: new VectorAttribute(this.setRepeat.bind(this)),
+      stride: new VectorAttribute(this.setStride.bind(this)),
+    };
     this.reset();
   }
 
@@ -67,7 +72,25 @@ export default class Repeater {
     this.needsReset = true;
   }
 
-  update(elapsedTime) {
+  setParam(name, value) {
+    if (!this.paramMap[name]) {
+      return;
+    }
+    this.paramMap[name].setValue(value);
+  }
+
+  setRepeat(x, y, z) {
+    this.vars.repeat.set(x, y, z);
+    this.needsReset = true;
+  }
+
+  setStride(x, y, z) {
+    this.vars.stride.set(x, y, z);
+    this.needsReset = true;
+  }
+
+  update(elapsedTime, performanceTime) {
+    Object.values(this.paramMap).forEach(param => param.update(elapsedTime, performanceTime));
     if (this.needsReset) {
       this.reset();
     }

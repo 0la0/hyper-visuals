@@ -1,5 +1,4 @@
 import PsVizBase from './ps-viz-base';
-// import VectorAttribute from './VectorAttribute';
 import Repeater from '../services/Geometry/InstancedMesh';
 import { Vector3 } from 'three';
 
@@ -14,6 +13,8 @@ export default class PsVizRepeat extends PsVizBase {
 
   constructor() {
     super();
+
+    // TODO: move this to InstancedMesh
     this.vars = {
       repeat: new Vector3(30, 30, 10),
       stride: new Vector3(1, 1, 1),
@@ -33,26 +34,14 @@ export default class PsVizRepeat extends PsVizBase {
   }
 
   setValuesFromAttributes(observedAttributes) {
-    // console.log('here', [this.constructor.name].observedAttributes)
     observedAttributes
       .filter(attrName => this.hasAttribute(attrName))
-      .forEach(attrName => this.paramMap[attrName].setValue(this.getAttribute(attrName)));
+      .forEach(attrName => this.geo.setParam(attrName, this.getAttribute(attrName)));
   }
 
   connectedCallback() {
     super.connectedCallback();
     console.log('ps-viz-repeat connected');
-
-    this.paramMap = {
-      repeat: new VectorAttribute((x, y, z) => {
-        this.vars.repeat.set(x, y, z);
-        this.geo && this.geo.setVars(this.vars);
-      }),
-      stride: new VectorAttribute((x, y, z) => {
-        this.vars.stride.set(x, y, z);
-        this.geo && this.geo.setVars(this.vars);
-      }),
-    };
 
     this.graphicsModel = {  
       connectTo: graphicsObject => {
@@ -70,23 +59,24 @@ export default class PsVizRepeat extends PsVizBase {
         if (this.parentNode.graphicsModel) {
           this.parentNode.graphicsModel.connectTo(this.geo);
         }
+        this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         return {
           onRemove: () => console.log('onRemove'),
           onChange: this.childChangeCallback.bind(this),
         };
       }
     };
-
-    this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
   }
 
   disconnectedCallback() {
     console.log('ps-viz-repeat disconnected');
+    this.geo.dispose();
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-    if (!this.isMounted) { return; }
-    this.paramMap[attrName].setValue(newVal);
+    if (!this.isMounted || !this.geo) { return; }
+    this.geo.setParam(attrName, newVal);
+    this.callbacks && this.callbacks.onChange();
   }
 
   reset() {

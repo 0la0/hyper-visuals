@@ -52,29 +52,29 @@
         scale-vel="0 0 0"
       >
       </ps-viz-cone>
-      <ps-viz-cone
+      <ps-viz-Triangle
         position="fn(10*sin(time)) -10 0"
         rotation="addr(a)"
         scale="1 1 1"
         color="0.5 0 0.8"
         pos-vel="0 0 0"
-        rot-vel="0 0 0"
+        rot-vel="0.7 1 0.9"
         scale-vel="0 0 0"
       >
-      </ps-viz-cone>
-      <ps-viz-box
+      </ps-viz-Triangle>
+      <ps-viz-ring
         position="10 10 0"
         rotation="0 0 0"
-        scale="5 1 1"
+        scale="4"
         color="0 0 1"
         pos-vel="0 0 0"
-        rot-vel="0 0 1"
+        rot-vel="1 0 1"
         scale-vel="0 0 0"
       >
-      </ps-viz-box>
+      </ps-viz-ring>
       <ps-viz-repeat repeat="30 30 10" stride="4 3 4">
-        <ps-viz-box
-          scale="0.8"
+        <ps-viz-triangle
+          scale="0.2"
           color="0 0.8 0.2"
           position="0 0 0"
           rotation="0 0 0"
@@ -82,7 +82,7 @@
           rot-vel="30"
           scale-vel="0 0 0"
         >
-        </ps-viz-box>
+        </ps-viz-triangle>
       </ps-viz-repeat>
     </ps-viz-scene>
   </body>  

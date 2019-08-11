@@ -47,45 +47,43 @@
         rotation="addr(a)"
         scale="1 1 1"
         color="0.5 0 0.8"
-        pos-vel="0 0 0"
-        rot-vel="0 0 0"
-        scale-vel="0 0 0"
       >
       </ps-viz-cone>
       <ps-viz-plane
         position="fn(10*sin(time)) -10 0"
-        rotation="addr(a)"
+        rotation="fn(time*0.25) fn(time) fn(time*0.125)"
         scale="1 1 1"
         color="0.5 0 0.8"
-        pos-vel="0 0 0"
-        rot-vel="0.7 1 0.9"
-        scale-vel="0 0 0"
       >
       </ps-viz-plane>
       <ps-viz-ring
         position="10 10 0"
-        rotation="0 0 0"
+        rotation="fn(time*0.125) 0 fn(time*0.125)"
         scale="4"
         color="0 0 1"
-        pos-vel="0 0 0"
-        rot-vel="1 0 1"
-        scale-vel="0 0 0"
       >
       </ps-viz-ring>
-      <ps-viz-repeat repeat="30 30 10" stride="4 3 4">
-        <ps-viz-triangle
-          scale="0.2"
+      <!-- <ps-viz-triangle
+          scale="fn(sin(time))"
           color="0 0.8 0.2"
-          position="0 0 0"
-          rotation="0 0 0"
+          position="fn(10*sin(time)) 0 0"
+          rotation="fn(sin(time)) 0 0"
           pos-vel="1 0 0"
           rot-vel="30"
           scale-vel="0 0 0"
         >
+        </ps-viz-triangle> -->
+      <ps-viz-repeat repeat="30 30 10" stride="4 3 4">
+        <ps-viz-triangle
+          scale="0.2"
+          color="0 0.8 0.2"
+          position="fn(10*sin(time)) 0 0"
+          rotation="fn(sin(time)) 0 0"
+        >
         </ps-viz-triangle>
       </ps-viz-repeat>
       <ps-viz-light
-        position="fn(50*sin(time)) 0 0"
+        position="fn(50*sin(time)) fn(50*cos(0.5*time)) 0"
         color="1 1 1"
       >
       </ps-viz-light>

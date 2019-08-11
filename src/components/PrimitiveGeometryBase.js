@@ -2,7 +2,7 @@ import PsVizBase from './ps-viz-base';
 
 export default class PrimitiveGeometryBase extends PsVizBase {
   static get observedAttributes() {
-    return [ 'position', 'rotation', 'scale', 'color', 'pos-vel', 'rot-vel', 'scale-vel' ];
+    return [ 'position', 'rotation', 'scale', 'color', ];
   }
 
   setValuesFromAttributes(observedAttributes) {

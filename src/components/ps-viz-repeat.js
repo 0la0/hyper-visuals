@@ -1,6 +1,6 @@
 import PsVizBase from './ps-viz-base';
 import Repeater from '../services/Geometry/InstancedMesh';
-import { Vector3 } from 'three';
+import sceneManager from '../services/SceneManager';
 
 export default class PsVizRepeat extends PsVizBase {
   static get tag() {
@@ -13,23 +13,11 @@ export default class PsVizRepeat extends PsVizBase {
 
   constructor() {
     super();
-
-    // TODO: move this to InstancedMesh
-    this.vars = {
-      repeat: new Vector3(30, 30, 10),
-      stride: new Vector3(1, 1, 1),
-      rotation: new Vector3(),
-      position: new Vector3(),
-      scale: new Vector3(1, 1, 1),
-      rotationVelocity: new Vector3(),
-      positionVelocity: new Vector3(),
-      scaleVelocity: new Vector3(),
-    };
+    this.vars = {};
   }
 
   childChangeCallback() {
     console.log('childChange callback');
-    // this.vars.rotation = graphicsObject.mesh.rotation.toVector3();
     this.geo.setVars(this.vars);
   }
 
@@ -41,27 +29,26 @@ export default class PsVizRepeat extends PsVizBase {
 
   connectedCallback() {
     super.connectedCallback();
-    console.log('ps-viz-repeat connected');
-
+    
     this.graphicsModel = {  
       connectTo: graphicsObject => {
         console.log('graphicsObject', graphicsObject)
-        const { geometry, material } = graphicsObject.mesh;
-        
+        sceneManager.addSceneObject(graphicsObject);
+        const { geometry, material } = graphicsObject.mesh;    
         this.vars.position = graphicsObject.mesh.position;
         this.vars.rotation = graphicsObject.mesh.rotation;
         this.vars.scale = graphicsObject.mesh.scale;
-        this.vars.positionVelocity = graphicsObject.positionVelocity;
-        this.vars.rotationVelocity = graphicsObject.rotationVelocity;
-        this.vars.scaleVelocity = graphicsObject.scaleVelocity;
-
-        this.geo = new Repeater(geometry, material, this.vars);
+        this.geo = new Repeater(this.vars);
+        this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
+        this.geo.init(geometry, material);
         if (this.parentNode.graphicsModel) {
           this.parentNode.graphicsModel.connectTo(this.geo);
         }
-        this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         return {
-          onRemove: () => console.log('onRemove'),
+          onRemove: () => {
+            console.log('onRemove');
+            sceneManager.addSceneObject(graphicsObject);
+          },
           onChange: this.childChangeCallback.bind(this),
         };
       }
@@ -71,6 +58,7 @@ export default class PsVizRepeat extends PsVizBase {
   disconnectedCallback() {
     console.log('ps-viz-repeat disconnected');
     this.geo.dispose();
+    // TODO: sceneManager.addSceneObject(graphicsObject);
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {

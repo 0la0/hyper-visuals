@@ -9,6 +9,7 @@ export default class ContinuousAttribute {
 
   setCallback(cb) {
     this.cb = cb;
+    this.update(0, 0);
   }
 
   update(elapsedTime, performanceTime) {

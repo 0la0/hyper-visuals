@@ -5,17 +5,32 @@ import VectorAttribute from '../Attribute/VectorAttribute';
 class GeoProperties {
   constructor() {
     this.position = new Vector3();
-    this.positionVelocity = new Vector3();
     this.rotation = new Vector3(),
-    this.rotationVelocity = new Vector3(),
     this.scale = new Vector3();
-    this.scaleVelocity = new Vector3();
   }
 }
 
 export default class Repeater {
-  constructor(geometry, material, vars) {
-    const numInstances = vars.repeat.x * vars.repeat.y * vars.repeat.z;
+  constructor(vars) {
+    this.vars = Object.assign(
+      {
+        repeat: new Vector3(1, 1, 1),
+        stride: new Vector3(1, 1, 1)
+      },
+      {
+        lastPosition: vars.position.clone(),
+      },
+      vars
+    );
+    console.log('rotation?', this.vars.rotation);
+    this.paramMap = {
+      repeat: new VectorAttribute(this.setRepeat.bind(this)),
+      stride: new VectorAttribute(this.setStride.bind(this)),
+    };
+  }
+
+  init(geometry, material) {
+    const numInstances = this.vars.repeat.x * this.vars.repeat.y * this.vars.repeat.z;
     this.cluster = new InstancedMesh(
       geometry,
       material,
@@ -24,12 +39,7 @@ export default class Repeater {
       false, // color
       true,  // uniform scale
     );
-    this.vars = vars;
     this.geoProperties = new Array(numInstances).fill(null).map(_ => new GeoProperties());
-    this.paramMap = {
-      repeat: new VectorAttribute(this.setRepeat.bind(this)),
-      stride: new VectorAttribute(this.setStride.bind(this)),
-    };
     this.reset();
   }
 
@@ -49,12 +59,8 @@ export default class Repeater {
         y * this.vars.stride.y - center.y,
         z * this.vars.stride.z - center.z
       );
-      geoProperty.positionVelocity = this.vars.positionVelocity.clone();
       geoProperty.rotation = this.vars.rotation.clone();
-      geoProperty.rotationVelocity = this.vars.rotationVelocity.clone();
       geoProperty.scale = this.vars.scale.clone();
-      geoProperty.scaleVelocity = this.vars.scaleVelocity.clone();
-
       this.cluster.setQuaternionAt(index , _q.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ')));
       this.cluster.setPositionAt(index , geoProperty.position);
       this.cluster.setScaleAt(index , geoProperty.scale);
@@ -94,17 +100,24 @@ export default class Repeater {
     if (this.needsReset) {
       this.reset();
     }
-    // TODO: short circuit
+
+    if (!this.vars.position.equals(this.vars.lastPosition)) { // last position?
+      const positionDiff = this.vars.lastPosition.clone().sub(this.vars.position);
+      this.geoProperties.forEach((geoProperty, index) => {
+        this.cluster.setPositionAt(index, geoProperty.position.add(positionDiff));
+      });
+      this.cluster.needsUpdate('position');
+      this.vars.lastPosition = this.vars.position.clone();
+    }
+
     this.geoProperties.forEach((geoProperty, index) => {
       const quat = this.cluster.getQuaternionAt(index);
-      const rotationDiff = geoProperty.rotationVelocity.clone().multiplyScalar(elapsedTime * 0.1);
-      geoProperty.rotation.setFromVector3(geoProperty.rotation.toVector3().add(rotationDiff));
-      this.cluster.setQuaternionAt(index, quat.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ')));
-      this.cluster.setPositionAt(index, geoProperty.position.add(geoProperty.positionVelocity.clone().multiplyScalar(elapsedTime)));
-      this.cluster.setScaleAt(index, geoProperty.scale.add(geoProperty.scaleVelocity.clone().multiplyScalar(elapsedTime)));
+      // TODO: short circuit
+      this.cluster.setQuaternionAt(index, quat.setFromEuler(this.vars.rotation));
+      // TODO: short circuit
+      this.cluster.setScaleAt(index, this.vars.scale);
     });
     this.cluster.needsUpdate('quaternion');
-    this.cluster.needsUpdate('position');
     this.cluster.needsUpdate('scale');
   }
 

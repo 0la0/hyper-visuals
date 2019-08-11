@@ -90,9 +90,16 @@
       >
       </ps-viz-light>
       <ps-viz-background
-        color="1 0 1"
+        color="0 0 0"
+        light-color="1 1 1"
+        light-intensity="fn(0.5*sin(0.25*time)+0.5)"
       >
       </ps-viz-background>
+      <!-- <ps-viz-camera
+        position="0 0 0"
+        rotation="0 fn(0.1*time) fn(0.1*time)"
+      >
+      </ps-viz-camera> -->
     </ps-viz-scene>
   </body>  
 </html>

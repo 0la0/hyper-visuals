@@ -1,11 +1,17 @@
 import VectorAttribute from './Attribute/VectorAttribute';
+import sceneManager from './SceneManager';
 
 export default class CameraModel {
   constructor() {
     this.paramMap = {
       position: new VectorAttribute(this.setPosition.bind(this)),
-      lookat: new VectorAttribute(this.setLookAt.bind(this)),
+      rotation: new VectorAttribute(this.setRotation.bind(this)),
     };
+    sceneManager.addSceneObject(this);
+  }
+
+  dispose() {
+    sceneManager.removeSceneObject(this);
   }
 
   setParam(name, value) {
@@ -16,11 +22,11 @@ export default class CameraModel {
   }
 
   setPosition(x, y, z) {
-    console.log('TODO: set camera position', x, y, z);
+    sceneManager.setCameraPosition(x, y, z);
   }
 
-  setLookAt(x, y, z) {
-    console.log('TODO: set ambient color', x, y, z);
+  setRotation(x, y, z) {
+    sceneManager.setCameraRotation(x, y, z);
   }
 
   update(elapsedTime, performanceTime) {

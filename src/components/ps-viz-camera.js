@@ -9,7 +9,7 @@ export default class PsVizCamera extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'position', 'lookat', ];
+    return [ 'position', 'rotation', ];
   }
 
   connectedCallback() {
@@ -21,11 +21,12 @@ export default class PsVizCamera extends PsVizBase {
     }
     super.connectedCallback();
     this.cameraModel = new CameraModel();
-    this.setValuesFromAttributes(PsVizBackground.observedAttributes);
+    this.setValuesFromAttributes(PsVizCamera.observedAttributes);
   }
 
   disconnectedCallback() {
     instanceIsConnected = false;
+    this.cameraModel.dispose();
   }
 
   setValuesFromAttributes(observedAttributes) {

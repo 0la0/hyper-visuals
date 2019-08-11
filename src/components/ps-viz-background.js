@@ -26,6 +26,7 @@ export default class PsVizBackground extends PsVizBase {
 
   disconnectedCallback() {
     instanceIsConnected = false;
+    this.model.dispose();
   }
 
   setValuesFromAttributes(observedAttributes) {

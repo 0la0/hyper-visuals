@@ -1,5 +1,4 @@
 import PsVizBase from './ps-viz-base';
-// import SceneModel from '../services/SceneModel';
 import sceneManager from '../services/SceneManager';
 
 let instanceIsConnected = false;
@@ -29,13 +28,11 @@ export default class PsVizScene extends PsVizBase {
     }
     this.graphicsObjects = new Set();
     sceneManager.buildScene(isEmbedded ? canvasContainer : undefined);
-    // this.sceneModel = new SceneModel(isEmbedded ? canvasContainer : undefined);
     
     this.graphicsModel = {
       connectTo: graphicsObject => {
         this.graphicsObjects.add(graphicsObject);
         sceneManager.addToScene(graphicsObject.getThreeMesh());
-        // this.sceneModel.scene.add(graphicsObject.getThreeMesh());
       }
     };
     this.lastAnimationTime = performance.now();
@@ -55,7 +52,7 @@ export default class PsVizScene extends PsVizBase {
     const scaledTime = elapsedTime * 0.001;
     this.lastAnimationTime = now;
     this.graphicsObjects.forEach(g => g.update(scaledTime, now));
-    // this.sceneModel.render();
+    sceneManager.update(scaledTime, now);
     sceneManager.render();
     requestAnimationFrame(this._animate);
   }
@@ -70,7 +67,6 @@ export default class PsVizScene extends PsVizBase {
   }
 
   setSize(width, height) {
-    // this.sceneModel.setSize(width, height);
-    sceneManager.setSize();
+    sceneManager.setSize(width, height);
   }
 }

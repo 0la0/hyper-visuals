@@ -8,7 +8,7 @@ export default class PsVizRepeat extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'repeat', 'stride' ];
+    return [ 'repeat', 'stride', 'position', 'rotation', 'scale' ];
   }
 
   constructor() {
@@ -41,6 +41,7 @@ export default class PsVizRepeat extends PsVizBase {
         this.geo = new Repeater(this.vars);
         this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         this.geo.init(geometry, material);
+        this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         if (this.parentNode.graphicsModel) {
           this.parentNode.graphicsModel.connectTo(this.geo);
         }

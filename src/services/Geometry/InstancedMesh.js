@@ -26,6 +26,9 @@ export default class Repeater {
     this.paramMap = {
       repeat: new VectorAttribute(this.setRepeat.bind(this)),
       stride: new VectorAttribute(this.setStride.bind(this)),
+      position: new VectorAttribute(this.setPosition.bind(this)),
+      rotation: new VectorAttribute(this.setRotation.bind(this)),
+      scale: new VectorAttribute(this.setScale.bind(this)),
     };
   }
 
@@ -93,6 +96,18 @@ export default class Repeater {
   setStride(x, y, z) {
     this.vars.stride.set(x, y, z);
     this.needsReset = true;
+  }
+
+  setPosition(x, y, z) {
+    this.cluster && this.cluster.position.set(x, y, z);
+  }
+
+  setRotation(x, y, z) {
+    this.cluster && this.cluster.rotation.set(x, y, z);
+  }
+
+  setScale(x, y, z) {
+    this.cluster && this.cluster.scale.set(x, y, z);
   }
 
   update(elapsedTime, performanceTime) {

@@ -8,7 +8,7 @@ export default class PsVizRepeat extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'repeat', 'stride', 'position', 'rotation', 'scale' ];
+    return [ 'repeat', 'stride', 'position', 'rotation', 'scale', 'pos-mod', ];
   }
 
   constructor() {

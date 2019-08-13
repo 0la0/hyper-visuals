@@ -15,20 +15,21 @@ export default class Repeater {
     this.vars = Object.assign(
       {
         repeat: new Vector3(1, 1, 1),
-        stride: new Vector3(1, 1, 1)
+        stride: new Vector3(1, 1, 1),
+        positionMod: {},
       },
       {
         lastPosition: vars.position.clone(),
       },
       vars
     );
-    console.log('rotation?', this.vars.rotation);
     this.paramMap = {
       repeat: new VectorAttribute(this.setRepeat.bind(this)),
       stride: new VectorAttribute(this.setStride.bind(this)),
       position: new VectorAttribute(this.setPosition.bind(this)),
       rotation: new VectorAttribute(this.setRotation.bind(this)),
       scale: new VectorAttribute(this.setScale.bind(this)),
+      'pos-mod': new VectorAttribute(this.setPositionModulation.bind(this)),
     };
   }
 
@@ -110,16 +111,33 @@ export default class Repeater {
     this.cluster && this.cluster.scale.set(x, y, z);
   }
 
+  setPositionModulation(x, y, z) {
+    this.vars.positionMod = {
+      x: typeof x === 'function' ? x : () => 0,
+      y: typeof y === 'function' ? y : () => 0,
+      z: typeof z === 'function' ? z : () => 0,
+    };
+    this.needsReset = true;
+  }
+
   update(elapsedTime, performanceTime) {
     Object.values(this.paramMap).forEach(param => param.update(elapsedTime, performanceTime));
     if (this.needsReset) {
       this.reset();
     }
 
-    if (!this.vars.position.equals(this.vars.lastPosition)) { // last position?
+    if (!this.vars.position.equals(this.vars.lastPosition)) {
       const positionDiff = this.vars.lastPosition.clone().sub(this.vars.position);
       this.geoProperties.forEach((geoProperty, index) => {
-        this.cluster.setPositionAt(index, geoProperty.position.add(positionDiff));
+        geoProperty.position.add(positionDiff);
+        const modVector = new Vector3(
+          this.vars.positionMod.x(performanceTime, geoProperty.position),
+          this.vars.positionMod.y(performanceTime, geoProperty.position),
+          this.vars.positionMod.z(performanceTime, geoProperty.position)
+        );
+        const modulatedPosition = geoProperty.position.clone().add(modVector);
+        
+        this.cluster.setPositionAt(index, modulatedPosition);
       });
       this.cluster.needsUpdate('position');
       this.vars.lastPosition = this.vars.position.clone();

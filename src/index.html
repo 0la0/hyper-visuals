@@ -63,17 +63,21 @@
         color="0 0 1"
       >
       </ps-viz-ring>
-      <ps-viz-repeat repeat="30 30 10" stride="4 3 4">
+      <ps-viz-repeat
+        repeat="30 30 10"
+        stride="4 3 4"
+        pos-mod="mod(10*sin(0.1*sin(0.001*time)*y)) mod(10*cos(0.1*sin(0.001*time)*x)) 0"
+      >
         <ps-viz-triangle
           scale="0.2"
           color="0 0.8 0.2"
-          position="fn(10*sin(time)) 0 0"
-          rotation="fn(sin(time)) 0 0"
+          position="fn(10*sin(0.5*time)) 0 0"
+          rotation="fn(0.25*time)"
         >
         </ps-viz-triangle>
       </ps-viz-repeat>
       <ps-viz-light
-        position="fn(50*sin(time)) fn(50*cos(0.5*time)) 0"
+        position="fn(50*sin(time)) fn(50*cos(0.5*time)) fn(80*cos(0.25*time))"
         color="1 1 1"
       >
       </ps-viz-light>

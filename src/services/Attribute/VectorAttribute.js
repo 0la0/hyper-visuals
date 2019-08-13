@@ -1,5 +1,6 @@
 import ContinuousAttribute from './ContinuousAttribute';
 import MessageAttribute from './MessageAttribute';
+import ModulationAttribute from './ModulationAttribute';
 import { parseAttribute } from './AttributeParser';
 
 export default class VectorAttribute {
@@ -20,7 +21,7 @@ export default class VectorAttribute {
     const x = parseAttribute(xStr);
     
     if (yStr === undefined && zStr === undefined) {
-      if (x instanceof MessageAttribute || x instanceof ContinuousAttribute) {
+      if (x instanceof MessageAttribute || x instanceof ContinuousAttribute || x instanceof ModulationAttribute) {
         x.setCallback((dynamicValue) => {
           this.realX = dynamicValue;
           this.realY = dynamicValue;
@@ -42,18 +43,27 @@ export default class VectorAttribute {
     const y = parseAttribute(yStr);
     const z = parseAttribute(zStr);
 
-    if (x instanceof MessageAttribute || x instanceof ContinuousAttribute) {
+    if (x instanceof ModulationAttribute) {
+      this.realX = x.evalFunction;
+      this.dynamicParams.x = null;
+    }
+    else if (x instanceof MessageAttribute || x instanceof ContinuousAttribute) {
       x.setCallback((dynamicValue) => {
         this.realX = dynamicValue;
         this._setAllAttributes();
       });
       this.dynamicParams.x = x;
-    } else {
+    }
+    else {
       this.realX = x;
       this.dynamicParams.x = null;
     }
 
-    if (y instanceof MessageAttribute || y instanceof ContinuousAttribute) {
+    if (y instanceof ModulationAttribute) {
+      this.realY = y.evalFunction;
+      this.dynamicParams.y = null;
+    }
+    else if (y instanceof MessageAttribute || y instanceof ContinuousAttribute) {
       y.setCallback((dynamicValue) => {
         this.realY = dynamicValue;
         this._setAllAttributes();
@@ -64,7 +74,11 @@ export default class VectorAttribute {
       this.dynamicParams.y = null;
     }
 
-    if (z instanceof MessageAttribute || z instanceof ContinuousAttribute) {
+    if (z instanceof ModulationAttribute) {
+      this.realZ = z.evalFunction;
+      this.dynamicParams.z = null;
+    }
+    else if (z instanceof MessageAttribute || z instanceof ContinuousAttribute) {
       z.setCallback((dynamicValue) => {
         this.realZ = dynamicValue;
         this._setAllAttributes();

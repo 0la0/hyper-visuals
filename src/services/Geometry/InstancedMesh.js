@@ -16,7 +16,9 @@ export default class Repeater {
       {
         repeat: new Vector3(1, 1, 1),
         stride: new Vector3(1, 1, 1),
-        positionMod: {},
+        positionMod: { x: () => 0, y: () => 0, z: () => 0 },
+        rotationMod: { x: () => 0, y: () => 0, z: () => 0 },
+        scaleMod: { x: () => 0, y: () => 0, z: () => 0 },
       },
       {
         lastPosition: vars.position.clone(),
@@ -30,6 +32,8 @@ export default class Repeater {
       rotation: new VectorAttribute(this.setRotation.bind(this)),
       scale: new VectorAttribute(this.setScale.bind(this)),
       'pos-mod': new VectorAttribute(this.setPositionModulation.bind(this)),
+      'rot-mod': new VectorAttribute(this.setRotationModulation.bind(this)),
+      'scale-mod': new VectorAttribute(this.setScaleModulation.bind(this)),
     };
   }
 
@@ -117,6 +121,27 @@ export default class Repeater {
       y: typeof y === 'function' ? y : () => 0,
       z: typeof z === 'function' ? z : () => 0,
     };
+    // this.vars.positionMod = { x, y, z };
+    this.needsReset = true;
+  }
+
+  setRotationModulation(x, y, z) {
+    this.vars.rotationMod = {
+      x: typeof x === 'function' ? x : () => 0,
+      y: typeof y === 'function' ? y : () => 0,
+      z: typeof z === 'function' ? z : () => 0,
+    };
+    // this.vars.positionMod = { x, y, z };
+    this.needsReset = true;
+  }
+
+  setScaleModulation(x, y, z) {
+    this.vars.scaleMod = {
+      x: typeof x === 'function' ? x : () => 0,
+      y: typeof y === 'function' ? y : () => 0,
+      z: typeof z === 'function' ? z : () => 0,
+    };
+    // this.vars.positionMod = { x, y, z };
     this.needsReset = true;
   }
 
@@ -126,6 +151,7 @@ export default class Repeater {
       this.reset();
     }
 
+    // TODO: if position changed OR if this.hasPositionModulation
     if (!this.vars.position.equals(this.vars.lastPosition)) {
       const positionDiff = this.vars.lastPosition.clone().sub(this.vars.position);
       this.geoProperties.forEach((geoProperty, index) => {
@@ -146,9 +172,21 @@ export default class Repeater {
     this.geoProperties.forEach((geoProperty, index) => {
       const quat = this.cluster.getQuaternionAt(index);
       // TODO: short circuit
-      this.cluster.setQuaternionAt(index, quat.setFromEuler(this.vars.rotation));
+      // const modulatedRotation = this.vars.rotation.toVector3().add(new Vector3(
+      const modulatedRotation = geoProperty.rotation.toVector3().add(new Vector3(
+        this.vars.rotationMod.x(performanceTime, geoProperty.position),
+        this.vars.rotationMod.y(performanceTime, geoProperty.position),
+        this.vars.rotationMod.z(performanceTime, geoProperty.position)
+      ));
+      // _q.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ'))
+      this.cluster.setQuaternionAt(index, quat.setFromEuler(new Euler().setFromVector3(modulatedRotation, 'XYZ')));
       // TODO: short circuit
-      this.cluster.setScaleAt(index, this.vars.scale);
+      const modulatedScale = geoProperty.scale.clone().add(new Vector3(
+        this.vars.scaleMod.x(performanceTime, geoProperty.position),
+        this.vars.scaleMod.y(performanceTime, geoProperty.position),
+        this.vars.scaleMod.z(performanceTime, geoProperty.position)
+      ));
+      this.cluster.setScaleAt(index, modulatedScale);
     });
     this.cluster.needsUpdate('quaternion');
     this.cluster.needsUpdate('scale');

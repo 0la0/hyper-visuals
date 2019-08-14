@@ -42,7 +42,7 @@
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
     <ps-viz-scene embed id="scene">
-      <ps-viz-cone
+      <!-- <ps-viz-cone
         position="fn(10*saw(time)) -10 0"
         rotation="addr(a)"
         scale="1 1 1"
@@ -62,17 +62,19 @@
         scale="4"
         color="0 0 1"
       >
-      </ps-viz-ring>
+      </ps-viz-ring> -->
+      <!-- pos-mod="mod(10*sin(0.0001*time*y)) 0 0" -->
       <ps-viz-repeat
         repeat="30 30 10"
         stride="4 3 4"
-        pos-mod="mod(10*sin(0.1*sin(0.001*time)*y)) mod(10*cos(0.1*sin(0.001*time)*x)) 0"
+        rot-mod="mod(10*sin(0.000001*time*y*z)) 0 0"
+        scale-mod="mod(sin(time*0.0001*x)) 0 0"
       >
         <ps-viz-triangle
           scale="0.2"
           color="0 0.8 0.2"
-          position="fn(10*sin(0.5*time)) 0 0"
-          rotation="fn(0.25*time)"
+          position="0 0 0"
+          rotation="fn(0.0*time)"
         >
         </ps-viz-triangle>
       </ps-viz-repeat>
@@ -84,7 +86,7 @@
       <ps-viz-background
         color="0 0 0"
         light-color="1 1 1"
-        light-intensity="fn(0.5*sin(0.25*time)+0.5)"
+        light-intensity="0"
       >
       </ps-viz-background>
       <ps-viz-camera

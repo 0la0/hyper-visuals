@@ -1,5 +1,4 @@
 import { exposedApi, apiNamespace, } from './ContinuousApi';
-// import { buildFunctionFromUserInput } from './AttributeEvaluator';
 
 function buildFunctionFromUserInput(userInputString, exposedApi, apiNamespace) {
   return new Function(`

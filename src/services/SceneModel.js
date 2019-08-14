@@ -12,7 +12,7 @@ function buildDefaultScene(parentElement, cameraFar = 201) {
   const widthHeightRatio = width / height;
   const camera = new PerspectiveCamera(65, widthHeightRatio, 1, cameraFar);
   const scene = new Scene();
-  const renderer = new WebGLRenderer();
+  const renderer = new WebGLRenderer({ antialias: true });
   camera.aspect = widthHeightRatio;
   scene.background = new Color(0x000000);
   scene.add(camera);

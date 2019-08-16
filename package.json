@@ -12,7 +12,7 @@
   "author": "Luke Anderson",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.106.2",
+    "three": "^0.107.0",
     "three-instanced-mesh": "^0.96.2"
   },
   "devDependencies": {

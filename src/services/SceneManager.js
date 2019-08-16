@@ -1,4 +1,6 @@
-import { Vector3 } from 'three';
+import { Vector2, Vector3 } from 'three';
+import { PixelShader } from 'three/examples/jsm/shaders/PixelShader';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import SceneModel from './SceneModel';
 
 class SceneManager {
@@ -28,6 +30,13 @@ class SceneManager {
     if (this.cameraRotation) {
       this.sceneModel.camera.rotation.set(this.cameraRotation.x, this.cameraRotation.y, this.cameraRotation.z);
     }
+
+    // https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_pixel.html
+    const pixelPass = new ShaderPass(PixelShader);
+    pixelPass.uniforms.resolution.value = new Vector2( window.innerWidth, window.innerHeight );
+    pixelPass.uniforms.resolution.value.multiplyScalar( window.devicePixelRatio );
+    pixelPass.uniforms.pixelSize.value = 14;
+    this.addEffect(pixelPass);
   }
 
   render() {
@@ -88,6 +97,15 @@ class SceneManager {
     if (this.sceneModel) {
       this.sceneModel.camera.rotation.set(this.cameraRotation.x, this.cameraRotation.y, this.cameraRotation.z);
     }
+  }
+
+  addEffect(shaderPass) {
+    this.sceneModel.composer.addPass(shaderPass);
+    console.log(shaderPass)
+  }
+
+  removeEffect(shaderPass) {
+    this.sceneModel.composer.removePass(shaderPass);
   }
 }
 

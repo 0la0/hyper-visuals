@@ -4,8 +4,10 @@ import {
   PerspectiveCamera,
   Scene,
   Vector3,
-  WebGLRenderer
+  WebGLRenderer,
 } from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 function buildDefaultScene(parentElement, cameraFar = 201) {
   const { width, height } = parentElement.getBoundingClientRect();
@@ -13,18 +15,21 @@ function buildDefaultScene(parentElement, cameraFar = 201) {
   const camera = new PerspectiveCamera(65, widthHeightRatio, 1, cameraFar);
   const scene = new Scene();
   const renderer = new WebGLRenderer({ antialias: true });
+  const composer = new EffectComposer(renderer);
   camera.aspect = widthHeightRatio;
   scene.background = new Color(0x000000);
   scene.add(camera);
   renderer.setSize(width, height);
-  return { camera, scene, renderer };
+  composer.addPass(new RenderPass(scene, camera));
+  return { camera, composer, scene, renderer };
 }
 
 export default class SceneModel {
   constructor(rendererContainer) {
     const parentElement = rendererContainer || document.body;
-    const { camera, scene, renderer } = buildDefaultScene(parentElement);
+    const { camera, composer, scene, renderer } = buildDefaultScene(parentElement);
     this.camera = camera;
+    this.composer = composer;
     this.scene = scene;
     this.renderer = renderer;
     this.camera.position.set(0, 0, 100);
@@ -36,6 +41,8 @@ export default class SceneModel {
 
   render() {
     this.renderer.render(this.scene, this.camera);
+    // TODO: short circuit
+    this.composer.render();
   }
 
   setSize(width, height) {

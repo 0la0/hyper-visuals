@@ -1,12 +1,13 @@
-import { Euler, Quaternion, Vector3 } from 'three';
+import { Color, Euler, Quaternion, Vector3, Vector2 } from 'three';
 import InstancedMesh from './InstanceMeshProvider';
 import VectorAttribute from '../Attribute/VectorAttribute';
 
 class GeoProperties {
   constructor() {
     this.position = new Vector3();
-    this.rotation = new Vector3(),
+    this.rotation = new Vector3();
     this.scale = new Vector3();
+    this.color = new Vector3();
   }
 }
 
@@ -19,9 +20,11 @@ export default class Repeater {
         positionMod: { x: () => 0, y: () => 0, z: () => 0 },
         rotationMod: { x: () => 0, y: () => 0, z: () => 0 },
         scaleMod: { x: () => 0, y: () => 0, z: () => 0 },
+        colorMod: { r: () => 0, g: () => 0, b: () => 0 },
       },
       {
         lastPosition: vars.position.clone(),
+        color: new Vector3(vars.color.r, vars.color.g, vars.color.b),
       },
       vars
     );
@@ -34,6 +37,7 @@ export default class Repeater {
       'pos-mod': new VectorAttribute(this.setPositionModulation.bind(this)),
       'rot-mod': new VectorAttribute(this.setRotationModulation.bind(this)),
       'scale-mod': new VectorAttribute(this.setScaleModulation.bind(this)),
+      'color-mod': new VectorAttribute(this.setColorModulation.bind(this)),
     };
   }
 
@@ -43,8 +47,8 @@ export default class Repeater {
       geometry,
       material,
       numInstances,
-      true,  // dynamic
-      false, // color
+      false,  // dynamic
+      true, // color
       true,  // uniform scale
     );
     this.geoProperties = new Array(numInstances).fill(null).map(_ => new GeoProperties());
@@ -121,8 +125,6 @@ export default class Repeater {
       y: typeof y === 'function' ? y : () => 0,
       z: typeof z === 'function' ? z : () => 0,
     };
-    // this.vars.positionMod = { x, y, z };
-    this.needsReset = true;
   }
 
   setRotationModulation(x, y, z) {
@@ -131,8 +133,6 @@ export default class Repeater {
       y: typeof y === 'function' ? y : () => 0,
       z: typeof z === 'function' ? z : () => 0,
     };
-    // this.vars.positionMod = { x, y, z };
-    this.needsReset = true;
   }
 
   setScaleModulation(x, y, z) {
@@ -141,8 +141,14 @@ export default class Repeater {
       y: typeof y === 'function' ? y : () => 0,
       z: typeof z === 'function' ? z : () => 0,
     };
-    // this.vars.positionMod = { x, y, z };
-    this.needsReset = true;
+  }
+
+  setColorModulation(r, g, b) {
+    this.vars.colorMod = {
+      r: typeof r === 'function' ? r : () => 0,
+      g: typeof g === 'function' ? g : () => 1,
+      b: typeof b === 'function' ? b : () => 1,
+    };
   }
 
   update(elapsedTime, performanceTime) {
@@ -152,7 +158,7 @@ export default class Repeater {
     }
 
     // TODO: if position changed OR if this.hasPositionModulation
-    if (!this.vars.position.equals(this.vars.lastPosition)) {
+    // if (!this.vars.position.equals(this.vars.lastPosition)) {
       const positionDiff = this.vars.lastPosition.clone().sub(this.vars.position);
       this.geoProperties.forEach((geoProperty, index) => {
         geoProperty.position.add(positionDiff);
@@ -167,18 +173,16 @@ export default class Repeater {
       });
       this.cluster.needsUpdate('position');
       this.vars.lastPosition = this.vars.position.clone();
-    }
+    // }
 
     this.geoProperties.forEach((geoProperty, index) => {
       const quat = this.cluster.getQuaternionAt(index);
       // TODO: short circuit
-      // const modulatedRotation = this.vars.rotation.toVector3().add(new Vector3(
       const modulatedRotation = geoProperty.rotation.toVector3().add(new Vector3(
         this.vars.rotationMod.x(performanceTime, geoProperty.position),
         this.vars.rotationMod.y(performanceTime, geoProperty.position),
         this.vars.rotationMod.z(performanceTime, geoProperty.position)
       ));
-      // _q.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ'))
       this.cluster.setQuaternionAt(index, quat.setFromEuler(new Euler().setFromVector3(modulatedRotation, 'XYZ')));
       // TODO: short circuit
       const modulatedScale = geoProperty.scale.clone().add(new Vector3(
@@ -187,9 +191,19 @@ export default class Repeater {
         this.vars.scaleMod.z(performanceTime, geoProperty.position)
       ));
       this.cluster.setScaleAt(index, modulatedScale);
+
+      // TODO: short circuit
+      const modulatedColor = geoProperty.color.clone().add(new Vector3(
+        this.vars.colorMod.r(performanceTime, geoProperty.position),
+        this.vars.colorMod.g(performanceTime, geoProperty.position),
+        this.vars.colorMod.b(performanceTime, geoProperty.position)
+      ));
+      this.cluster.setColorAt(index, new Color(modulatedColor.x, modulatedColor.y, modulatedColor.z));
     });
     this.cluster.needsUpdate('quaternion');
     this.cluster.needsUpdate('scale');
+    this.cluster.needsUpdate('colors');
+
   }
 
   dispose() {

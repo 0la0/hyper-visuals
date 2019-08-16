@@ -8,7 +8,7 @@ export default class PsVizRepeat extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'repeat', 'stride', 'position', 'rotation', 'scale', 'pos-mod', 'rot-mod', 'scale-mod' ];
+    return [ 'repeat', 'stride', 'position', 'rotation', 'scale', 'pos-mod', 'rot-mod', 'scale-mod', 'color-mod', ];
   }
 
   constructor() {
@@ -38,6 +38,7 @@ export default class PsVizRepeat extends PsVizBase {
         this.vars.position = graphicsObject.mesh.position;
         this.vars.rotation = graphicsObject.mesh.rotation;
         this.vars.scale = graphicsObject.mesh.scale;
+        this.vars.color = graphicsObject.mesh.material.color;
         this.geo = new Repeater(this.vars);
         this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         this.geo.init(geometry, material);

@@ -12,7 +12,6 @@ export default class ModulationAttribute {
     this.stringValue = stringValue;
     this.cb = cb;
     this.evalFunction = buildFunctionFromUserInput(stringValue, exposedApi, apiNamespace);
-    console.log('modulationAttribute', this);
   }
 
   setCallback(cb) {
@@ -20,12 +19,7 @@ export default class ModulationAttribute {
     this.update(0, 0);
   }
 
-  update(elapsedTime, performanceTime) {
-    // console.log('cool', elapsedTime, performanceTime)
-    // const testTime = performanceTime * 0.005;
-    // const evaluated = this.evalFunction(testTime);
-    // this.cb(evaluated);
-  }
+  update(elapsedTime, performanceTime) {}
 
   dispose() {}
 }

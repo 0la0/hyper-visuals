@@ -93,7 +93,7 @@ class SceneManager {
     }
   }
 
-  addEffect(shaderPass) {
+  addEffect({ shaderPass }) {
     this.effects.push(shaderPass);
     this.renderEffects = this.effects.length > 0;
     if (this.sceneModel) {
@@ -101,7 +101,7 @@ class SceneManager {
     }
   }
 
-  removeEffect(shaderPass) {
+  removeEffect({ shaderPass }) {
     this.effects = this.effects.filter(effect => effect !== shaderPass);
     this.renderEffects = this.effects.length > 0;
     if (this.sceneModel) {

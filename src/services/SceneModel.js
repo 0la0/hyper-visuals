@@ -39,10 +39,11 @@ export default class SceneModel {
     parentElement.appendChild(renderer.domElement);
   }
 
-  render() {
+  render(renderEffects) {
     this.renderer.render(this.scene, this.camera);
-    // TODO: short circuit
-    this.composer.render();
+    if (renderEffects) {
+      this.composer.render();
+    }    
   }
 
   setSize(width, height) {

@@ -1,4 +1,4 @@
-import { Color, Mesh, Vector3 } from 'three';
+import { Color, Mesh, } from 'three';
 import VectorAttribute from '../Attribute/VectorAttribute';
 
 export default class BaseGeometry {

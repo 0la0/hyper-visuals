@@ -1,6 +1,4 @@
-import { Vector2, Vector3 } from 'three';
-import { PixelShader } from 'three/examples/jsm/shaders/PixelShader';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { Vector3 } from 'three';
 import SceneModel from './SceneModel';
 
 class SceneManager {
@@ -10,7 +8,9 @@ class SceneManager {
     this.ambientLightColor;
     this.cameraPosition;
     this.cameraRotation;
+    this.effects = [];
     this.sceneObjects = [];
+    this.renderEffects = false;
   }
 
   buildScene(rendererContainer) {
@@ -30,17 +30,11 @@ class SceneManager {
     if (this.cameraRotation) {
       this.sceneModel.camera.rotation.set(this.cameraRotation.x, this.cameraRotation.y, this.cameraRotation.z);
     }
-
-    // https://github.com/mrdoob/three.js/blob/master/examples/webgl_postprocessing_pixel.html
-    const pixelPass = new ShaderPass(PixelShader);
-    pixelPass.uniforms.resolution.value = new Vector2( window.innerWidth, window.innerHeight );
-    pixelPass.uniforms.resolution.value.multiplyScalar( window.devicePixelRatio );
-    pixelPass.uniforms.pixelSize.value = 14;
-    this.addEffect(pixelPass);
+    this.effects.forEach(effect => this.sceneModel.composer.addPass(effect));
   }
 
   render() {
-    this.sceneModel.render();
+    this.sceneModel.render(this.renderEffects);
   }
 
   setSize(width, height) {
@@ -100,12 +94,19 @@ class SceneManager {
   }
 
   addEffect(shaderPass) {
-    this.sceneModel.composer.addPass(shaderPass);
-    console.log(shaderPass)
+    this.effects.push(shaderPass);
+    this.renderEffects = this.effects.length > 0;
+    if (this.sceneModel) {
+      this.sceneModel.composer.addPass(shaderPass);
+    }
   }
 
   removeEffect(shaderPass) {
-    this.sceneModel.composer.removePass(shaderPass);
+    this.effects = this.effects.filter(effect => effect !== shaderPass);
+    this.renderEffects = this.effects.length > 0;
+    if (this.sceneModel) {
+      this.sceneModel.composer.removePass(shaderPass);
+    }
   }
 }
 

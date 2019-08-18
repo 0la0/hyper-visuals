@@ -12,6 +12,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 function buildDefaultScene(parentElement, cameraFar = 201) {
   const { width, height } = parentElement.getBoundingClientRect();
   const widthHeightRatio = width / height;
+  const pixelRatio = window.devicePixelRatio || 0;
   const camera = new PerspectiveCamera(65, widthHeightRatio, 1, cameraFar);
   const scene = new Scene();
   const renderer = new WebGLRenderer({ antialias: true });
@@ -20,6 +21,8 @@ function buildDefaultScene(parentElement, cameraFar = 201) {
   scene.background = new Color(0x000000);
   scene.add(camera);
   renderer.setSize(width, height);
+  renderer.setSize(width, height);
+  composer.setSize(width * pixelRatio, height * pixelRatio);
   composer.addPass(new RenderPass(scene, camera));
   return { camera, composer, scene, renderer };
 }

@@ -5,18 +5,19 @@ import Shader from '../Shader';
 import vertextShader from './Pixelate.vert';
 import fragmentShader from './Pixelate.frag';
 
-export default class PixelateFilter {
+// https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/AfterimagePass.js
+export default class AfterImageFilter {
   constructor() {
     this.paramMap = {
       amount: new VectorAttribute(this.setAmount.bind(this)),
     };
     const uniforms = {
-      tDiffuse: { value: null },
-      resolution: { value: null },
-      pixelSize: { value: 1.0 },
+      damp: { value: 0.96 },
+      tOld: { value: null },
+      tNew: { value: null }
     };
-    const resolution = new Vector2(window.innerWidth, window.innerHeight).multiplyScalar(window.devicePixelRatio);
     this.shader = new Shader(uniforms, vertextShader, fragmentShader);
+    const resolution = new Vector2(window.innerWidth, window.innerHeight).multiplyScalar(window.devicePixelRatio);
     this.shader.setUniform('resolution', resolution);
     sceneManager.addEffect(this.shader);
     sceneManager.addSceneObject(this);
@@ -32,10 +33,6 @@ export default class PixelateFilter {
       return;
     }
     this.paramMap[name].setValue(value);
-  }
-
-  setAmount(x, y) {
-    this.shader.setUniform('pixelSize', x);
   }
 
   update(elapsedTime, performanceTime) {

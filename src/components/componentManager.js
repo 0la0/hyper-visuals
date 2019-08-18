@@ -1,6 +1,7 @@
 import PrimitiveGeometryComponents from './PrimitiveGeometryComponents';
 import PsVizBackground from './ps-viz-background';
 import PsVizCamera from './ps-viz-camera';
+import PsVizFilterOscillate from './ps-viz-filter-oscillate';
 import PsVizFilterPixelate from './ps-viz-filter-pixelate';
 import PsVizLight from './ps-viz-light';
 import PsVizRepeat from './ps-viz-repeat';
@@ -9,6 +10,7 @@ import PsVizScene from './ps-viz-scene';
 export const components = Object.assign({}, PrimitiveGeometryComponents, {
   PsVizBackground,
   PsVizCamera,
+  PsVizFilterOscillate,
   PsVizFilterPixelate,
   PsVizLight,
   PsVizRepeat,

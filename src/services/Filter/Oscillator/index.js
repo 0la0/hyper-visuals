@@ -12,8 +12,8 @@ export default class OscillationFilter {
     };
     const uniforms = {
       tDiffuse: { value: null },
+      time: { value: 0 },
     };
-    const resolution = new Vector2(window.innerWidth, window.innerHeight).multiplyScalar(window.devicePixelRatio);
     this.shader = new Shader(uniforms, vertextShader, fragmentShader);
     sceneManager.addEffect(this.shader);
     sceneManager.addSceneObject(this);
@@ -33,5 +33,6 @@ export default class OscillationFilter {
 
   update(elapsedTime, performanceTime) {
     Object.values(this.paramMap).forEach(param => param.update(elapsedTime, performanceTime));
+    this.shader.setUniform('time', performanceTime);
   }
 }

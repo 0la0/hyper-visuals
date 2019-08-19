@@ -95,11 +95,15 @@
         rotation="0 0 0"
       >
       </ps-viz-camera>
-      <!-- <ps-viz-filter-pixelate
-        amount="fn(20*squ(0.5*time)+21)"
+      <ps-viz-filter-pixelate
+        amount="fn(20*sin(0.5*time)+20)"
       >
-      </ps-viz-filter-pixelate> -->
-      <ps-viz-filter-oscillate>
+      </ps-viz-filter-pixelate>
+      <ps-viz-filter-oscillate
+        amplitude="fn(0.1*sin(0.15*time))"
+        frequency="0.005"
+        period="fn(20*sin(0.05*time)+20)"
+      >
       </ps-viz-filter-oscillate>
     </ps-viz-scene>
   </body>  

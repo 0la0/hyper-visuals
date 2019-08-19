@@ -7,23 +7,16 @@ export default class PsVizFilterOscillate extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [];
+    return [ 'amplitude', 'frequency', 'period' ];
   }
 
   connectedCallback() {
     super.connectedCallback();
-    // this.light = new Light();
     this.oscillatorFilter = new OscillatorFilter();
     this.setValuesFromAttributes(PsVizFilterOscillate.observedAttributes);
-    // requestAnimationFrame(() => {
-    //   if (this.parentNode.graphicsModel) {
-    //     this.parentNode.graphicsModel.connectTo(this.light);
-    //   }
-    // });
   }
 
   disconnectedCallback() {
-    console.log('ps-viz-filter-oscillator disconnected');
     this.model.dispose();
   }
 
@@ -35,7 +28,7 @@ export default class PsVizFilterOscillate extends PsVizBase {
 
   attributeChangedCallback(attrName, oldVal, newVal) {
     if (!this.isMounted) { return; }
-    this.pixelateFilter.setParam(attrName, newVal);
+    this.oscillatorFilter.setParam(attrName, newVal);
     this.callbacks && this.callbacks.onChange();
   }
 }

@@ -12,18 +12,11 @@ export default class PsVizFilterPixelate extends PsVizBase {
 
   connectedCallback() {
     super.connectedCallback();
-    // this.light = new Light();
     this.pixelateFilter = new PixelateFilter();;
     this.setValuesFromAttributes(PsVizFilterPixelate.observedAttributes);
-    // requestAnimationFrame(() => {
-    //   if (this.parentNode.graphicsModel) {
-    //     this.parentNode.graphicsModel.connectTo(this.light);
-    //   }
-    // });
   }
 
   disconnectedCallback() {
-    console.log('ps-viz-filter-pixelate disconnected');
     this.model.dispose();
   }
 

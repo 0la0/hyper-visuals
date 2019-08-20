@@ -7,7 +7,7 @@ export default class PsVizFilterOscillate extends PsVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'amplitude', 'frequency', 'period' ];
+    return [ 'amplitude', 'frequency', 'period', 'rotation', 'type' ];
   }
 
   connectedCallback() {

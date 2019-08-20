@@ -42,7 +42,7 @@
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
     <ps-viz-scene embed id="scene">
-      <!-- <ps-viz-cone
+      <ps-viz-cone
         position="fn(10*saw(time)) -10 0"
         rotation="addr(a)"
         scale="1 1 1"
@@ -62,8 +62,8 @@
         scale="4"
         color="0 0 1"
       >
-      </ps-viz-ring> -->
-      <ps-viz-repeat
+      </ps-viz-ring>
+      <!-- <ps-viz-repeat
         repeat="30 30 10"
         stride="4 3 4"
         pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
@@ -78,7 +78,7 @@
           rotation="fn(0.0*time)"
         >
         </ps-viz-triangle>
-      </ps-viz-repeat>
+      </ps-viz-repeat> -->
       <ps-viz-light
         position="fn(50*sin(time)) fn(50*cos(0.5*time)) fn(80*cos(0.25*time))"
         color="1 1 1"
@@ -87,7 +87,7 @@
       <ps-viz-background
         color="0 0 0"
         light-color="1 1 1"
-        light-intensity="0"
+        light-intensity="0.5"
       >
       </ps-viz-background>
       <ps-viz-camera
@@ -95,14 +95,24 @@
         rotation="0 0 0"
       >
       </ps-viz-camera>
-      <ps-viz-filter-pixelate
+      <!-- <ps-viz-filter-pixelate
         amount="fn(20*sin(0.5*time)+20)"
       >
-      </ps-viz-filter-pixelate>
+      </ps-viz-filter-pixelate> -->
       <ps-viz-filter-oscillate
-        amplitude="fn(0.1*sin(0.15*time))"
+        amplitude="0.05"
         frequency="0.005"
-        period="fn(20*sin(0.05*time)+20)"
+        period="5"
+        rotation="fn(-2.5*time)"
+        type="saw"
+      >
+      </ps-viz-filter-oscillate>
+      <ps-viz-filter-oscillate
+        amplitude="0.05"
+        frequency="0.005"
+        period="10"
+        rotation="fn(5*time)"
+        type="saw"
       >
       </ps-viz-filter-oscillate>
     </ps-viz-scene>

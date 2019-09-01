@@ -8,7 +8,6 @@ import perlinNoiseLib from './PNoise.frag';
 export default class CloudFilter {
   constructor() {
     const fragmentShader = `${perlinNoiseLib}${fragShader}`;
-    console.log(fragmentShader)
     this.paramMap = {
       amplitude: new ScalarAttribute(this.setAmplitude.bind(this)),
       frequency: new ScalarAttribute(this.setFrequency.bind(this)),

@@ -29,18 +29,25 @@
         cursor: pointer;
       }
     </style>
-    <script src="./dist/psvizmarkup.js"></script>
+    <script src="./ps-pattern/dist/pspattern.js"></script>
+    <script src="./psvisuals.js"></script>
     <script>
       let isOn = false;
       function toggle() {
         isOn = !isOn;
-        const scene = document.getElementById('scene');
-        isOn ? scene.start() : scene.stop();
+        const event = new CustomEvent(isOn ? 'CLOCK_START' : 'CLOCK_STOP');
+        document.dispatchEvent(event);
       }
     </script>
   </head>
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
+
+    <ps-seq>
+      <ps-pat-midi pattern="a:1 a:2 , a:3"></ps-pat-midi>
+      <ps-pat-midi pattern="a:1 a:2 a:3"></ps-pat-midi>
+    </ps-seq>
+
     <ps-viz-scene embed id="scene">
       <ps-viz-cone
         position="fn(10*saw(time)) -10 0"
@@ -99,6 +106,11 @@
         amount="fn(20*sin(0.5*time)+20)"
       >
       </ps-viz-filter-pixelate> -->
+      <!-- <ps-viz-filter-cloud
+        amplitude="0.2"
+        frequency="0.00001"
+      >
+      </ps-viz-filter-cloud> -->
       <!-- <ps-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
@@ -106,19 +118,17 @@
         rotation="fn(-2.5*time)"
         type="saw"
       >
-      </ps-viz-filter-oscillate>
-      <ps-viz-filter-oscillate
+      </ps-viz-filter-oscillate> -->
+      <!-- <ps-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
         period="10"
         rotation="fn(5*time)"
-        type="saw"
+        type="sin"
       >
       </ps-viz-filter-oscillate> -->
-    <ps-viz-filter-cloud
-      amplitude="0.08"
-      frequency="0.00001"
-    >
-    </ps-viz-filter-cloud>
+      <ps-viz-filter-afterimage>
+      </ps-viz-filter-afterimage>
+    </ps-viz-scene>
   </body>  
 </html>

@@ -12,9 +12,9 @@ const webpackConfig = {
   output: {
     publicPath: 'dist/',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'psvizmarkup.js',
-    sourceMapFilename: 'psvizmarkup.js.map',
-    library: 'ps-viz-markup',
+    filename: 'psvisuals.js',
+    sourceMapFilename: 'psvisuals.js.map',
+    library: 'ps-visuals',
     libraryTarget: 'umd',
   },
   devtool: 'source-map',
@@ -27,14 +27,13 @@ const webpackConfig = {
       }
     ]
   },
-  resolve: {
-    alias: {
-      components: path.resolve(__dirname, 'src/components/'),
-      services: path.resolve(__dirname, 'src/services/')
-    }
-  },
   devServer: {
-    port: 3001
+    port: 3001,
+    contentBase: [
+      path.resolve(__dirname, 'src'),
+      path.resolve(__dirname, 'node_modules')
+    ],
+    publicPath:  "/"
   },
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
   plugins: [

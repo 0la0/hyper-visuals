@@ -35,9 +35,15 @@
       let isOn = false;
       function toggle() {
         isOn = !isOn;
-        const event = new CustomEvent(isOn ? 'CLOCK_START' : 'CLOCK_STOP');
-        document.dispatchEvent(event);
+        const scene = document.getElementById('scene');
+        isOn ? scene.start() : scene.stop();
       }
+      window.addEventListener('resize', () => {
+        document.getElementById('scene').setSize(
+          window.innerWidth,
+          window.innerHeight
+        );
+      });
     </script>
   </head>
   <body>

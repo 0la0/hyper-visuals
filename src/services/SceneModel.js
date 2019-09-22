@@ -21,7 +21,6 @@ function buildDefaultScene(parentElement, cameraFar = 201) {
   scene.background = new Color(0x000000);
   scene.add(camera);
   renderer.setSize(width, height);
-  renderer.setSize(width, height);
   composer.setSize(width * pixelRatio, height * pixelRatio);
   composer.addPass(new RenderPass(scene, camera));
   return { camera, composer, scene, renderer };
@@ -49,9 +48,14 @@ export default class SceneModel {
     }    
   }
 
+  // TODO: wrap in "batch render"
   setSize(width, height) {
     const widthHeightRatio = width / height;
     this.camera.aspect = widthHeightRatio;
     this.renderer.setSize(width, height);
+    this.composer.setSize(width, height);
+    this.renderer.domElement.width = width;
+    this.renderer.domElement.height = height;
+    this.camera.updateProjectionMatrix();
   }
 }

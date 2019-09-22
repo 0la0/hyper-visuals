@@ -38,19 +38,13 @@ export default class PsVizScene extends PsVizBase {
     this.lastAnimationTime = performance.now();
     this._animate = this.animate.bind(this);
     this.isOn = false;
-
-    this._start = this.start.bind(this);
-    this._stop = this.stop.bind(this);
-    document.addEventListener('METRONOME_START', this._start);
-    document.addEventListener('METRONOME_STOP', this._stop);
   }
 
   disconnectedCallback() {
     instanceIsConnected = false;
-    document.removeEventListener('METRONOME_START', this._start);
-    document.removeEventListener('METRONOME_STOP', this._stop);
   }
 
+  // TODO: add buffer to "now"
   animate() {
     if (!this.isOn) { return; }
     const now = performance.now();
@@ -64,6 +58,7 @@ export default class PsVizScene extends PsVizBase {
   }
 
   start() {
+    if (this.isOn) { return; }
     this.isOn = true;
     requestAnimationFrame(this._animate);
   }

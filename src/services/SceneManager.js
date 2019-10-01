@@ -67,6 +67,11 @@ class SceneManager {
     this.sceneModel.scene.add(obj);
   }
 
+  removeFromScene(obj) {
+    this.sceneModel.scene.remove(obj);
+    console.log('removedFromScene', obj);
+  }
+
   update(elapsedTime, performanceTime) {
     this.sceneObjects.forEach(sceneObject => sceneObject.update(elapsedTime, performanceTime));
   }

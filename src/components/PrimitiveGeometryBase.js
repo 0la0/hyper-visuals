@@ -12,7 +12,7 @@ export default class PrimitiveGeometryBase extends PsVizBase {
   }
 
   disconnectedCallback() {
-    this.geometry.dispose();
+    this.onRemove && this.onRemove();
   }
   
   attributeChangedCallback(attrName, oldVal, newVal) {
@@ -25,6 +25,7 @@ export default class PrimitiveGeometryBase extends PsVizBase {
     requestAnimationFrame(() => {
       if (this.parentNode.graphicsModel) {
         this.parentNode.graphicsModel.connectTo(this.geometry);
+        this.onRemove = this.parentNode.graphicsModel.remove.bind(this.parentNode, this.geometry);
       }
     });
   }

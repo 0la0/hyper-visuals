@@ -33,7 +33,12 @@ export default class PsVizScene extends PsVizBase {
       connectTo: graphicsObject => {
         this.graphicsObjects.add(graphicsObject);
         sceneManager.addToScene(graphicsObject.getThreeMesh());
-      }
+      },
+      remove: graphicsObject => {
+        this.graphicsObjects.delete(graphicsObject);
+        sceneManager.removeFromScene(graphicsObject.getThreeMesh());
+        graphicsObject.dispose();
+      },
     };
     this.lastAnimationTime = performance.now();
     this._animate = this.animate.bind(this);

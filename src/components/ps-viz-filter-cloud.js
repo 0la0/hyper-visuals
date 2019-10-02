@@ -17,7 +17,7 @@ export default class PsVizFilterCloud extends PsVizBase {
   }
 
   disconnectedCallback() {
-    this.model.dispose();
+    this.cloudFilter.dispose();
   }
 
   setValuesFromAttributes(observedAttributes) {

@@ -108,10 +108,10 @@
         rotation="0 0 0"
       >
       </ps-viz-camera>
-      <ps-viz-filter-pixelate
+      <!-- <ps-viz-filter-pixelate
         amount="fn(20*sin(0.5*time)+20)"
       >
-      </ps-viz-filter-pixelate>
+      </ps-viz-filter-pixelate> -->
       <!-- <ps-viz-filter-cloud
         amplitude="0.2"
         frequency="0.00001"
@@ -124,8 +124,8 @@
         rotation="fn(-2.5*time)"
         type="saw"
       >
-      </ps-viz-filter-oscillate> -->
-      <!-- <ps-viz-filter-oscillate
+      </ps-viz-filter-oscillate>
+      <ps-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
         period="10"
@@ -133,8 +133,8 @@
         type="sin"
       >
       </ps-viz-filter-oscillate> -->
-      <ps-viz-filter-afterimage>
-      </ps-viz-filter-afterimage>
+      <!-- <ps-viz-filter-afterimage>
+      </ps-viz-filter-afterimage> -->
     </ps-viz-scene>
   </body>  
 </html>

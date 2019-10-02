@@ -17,7 +17,7 @@ export default class PsVizFilterPixelate extends PsVizBase {
   }
 
   disconnectedCallback() {
-    this.model.dispose();
+    this.pixelateFilter.dispose();
   }
 
   setValuesFromAttributes(observedAttributes) {

@@ -17,13 +17,15 @@ export default class PsVizLight extends PsVizBase {
     requestAnimationFrame(() => {
       if (this.parentNode.graphicsModel) {
         this.parentNode.graphicsModel.connectTo(this.light);
+        this.onRemove = this.parentNode.graphicsModel.remove.bind(this.parentNode, this.light);
       }
     });
   }
 
   disconnectedCallback() {
     console.log('ps-viz-light disconnected');
-    this.light.dispose();
+    this.onRemove && this.onRemove();
+    // this.light.dispose();
   }
 
   setValuesFromAttributes(observedAttributes) {

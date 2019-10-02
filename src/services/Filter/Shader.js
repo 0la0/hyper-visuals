@@ -13,4 +13,8 @@ export default class Shader {
     }
     uniform.value = value;   
   }
+
+  dispose() {
+    this.shaderPass.dispose();
+  }
 }

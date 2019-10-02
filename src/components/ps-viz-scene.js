@@ -37,7 +37,7 @@ export default class PsVizScene extends PsVizBase {
       remove: graphicsObject => {
         this.graphicsObjects.delete(graphicsObject);
         sceneManager.removeFromScene(graphicsObject.getThreeMesh());
-        graphicsObject.dispose();
+        graphicsObject.dispose && graphicsObject.dispose();
       },
     };
     this.lastAnimationTime = performance.now();

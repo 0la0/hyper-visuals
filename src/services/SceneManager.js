@@ -109,9 +109,7 @@ class SceneManager {
   removeEffect({ shaderPass }) {
     this.effects = this.effects.filter(effect => effect !== shaderPass);
     this.renderEffects = this.effects.length > 0;
-    if (this.sceneModel) {
-      this.sceneModel.composer.removePass(shaderPass);
-    }
+    shaderPass.enabled = false;
   }
 }
 

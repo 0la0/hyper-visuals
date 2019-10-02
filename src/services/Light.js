@@ -33,9 +33,9 @@ export default class Light {
     Object.values(this.paramMap).forEach(param => param.update(elapsedTime, performanceTime));
   }
 
-  dispose() {
-    console.log('TODO: Light.dispose');
-  }
+  // dispose() {
+  //   console.log('TODO: Light.dispose');
+  // }
 
   getThreeMesh() {
     return this.light;

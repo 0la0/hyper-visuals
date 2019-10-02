@@ -25,6 +25,8 @@ export default class PixelateFilter {
   dispose() {
     sceneManager.removeEffect(this.shader);
     sceneManager.removeSceneObject(this);
+    this.shader = null;
+    this.paramMap = null;
   }
 
   setParam(name, value) {

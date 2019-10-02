@@ -17,7 +17,7 @@ export default class PsVizFilterOscillate extends PsVizBase {
   }
 
   disconnectedCallback() {
-    this.model.dispose();
+    this.oscillatorFilter.dispose();
   }
 
   setValuesFromAttributes(observedAttributes) {

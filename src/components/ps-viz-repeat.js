@@ -32,7 +32,6 @@ export default class PsVizRepeat extends PsVizBase {
     
     this.graphicsModel = {  
       connectTo: graphicsObject => {
-        console.log('graphicsObject', graphicsObject.mesh.uuid)
         const { geometry, material } = graphicsObject.mesh;  
         const vars = {
           position: graphicsObject.mesh.position,
@@ -47,6 +46,7 @@ export default class PsVizRepeat extends PsVizBase {
         this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         if (this.parentNode.graphicsModel) {
           this.parentNode.graphicsModel.connectTo(repeater);
+          repeater.onDisconnect = this.parentNode.graphicsModel.remove.bind(this.parentNode, repeater);
         }
         return {
           onRemove: (...args) => {
@@ -57,16 +57,20 @@ export default class PsVizRepeat extends PsVizBase {
       },
       remove: graphicsObject => {
         const repeaterToRemove = this.repeaters.find(repeater => repeater.uuid === graphicsObject.mesh.uuid);
-        if (this.parentNode.graphicsModel) {
-          this.parentNode.graphicsModel.remove(repeaterToRemove);
+        if (!repeaterToRemove) {
+          return;
         }
+        repeaterToRemove.onDisconnect();
         this.repeaters = this.repeaters.filter(repeater => repeater !== repeaterToRemove);
       },
     };
   }
 
   disconnectedCallback() {
-    this.repeaters.forEach(repeater => repeater.dispose());
+    this.repeaters.forEach(repeater => {
+      repeater.onDisconnect();
+    });
+    this.repeaters = [];
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {

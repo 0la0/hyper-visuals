@@ -209,7 +209,7 @@ export default class Repeater {
   dispose() {
     this.cluster._geometry.dispose();
     this.cluster._material.dispose();
-    this.geoProperties = null;
+    this.geoProperties = [];
   }
 
   getThreeMesh() {

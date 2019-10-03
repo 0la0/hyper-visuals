@@ -55,7 +55,7 @@
     </ps-seq>
 
     <ps-viz-scene embed id="scene">
-      <ps-viz-cone
+      <!-- <ps-viz-cone
         position="fn(10*saw(time)) -10 0"
         rotation="addr(a)"
         scale="1 1 1"
@@ -75,7 +75,31 @@
         scale="4"
         color="0 0 1"
       >
-      </ps-viz-ring>
+      </ps-viz-ring> -->
+      <ps-viz-repeat
+        repeat="30 30 10"
+        stride="4 3 4"
+        pos-mod="0 0 0"
+        rot-mod="0 0 0"
+        scale-mod="0 0 0"
+        color-mod="0 0 0"
+        position="10 0 0"
+      >
+        <ps-viz-cone
+          scale="0.1"
+          color="1 1 1"
+          position="0 0 0"
+          rotation="4"
+        >
+        </ps-viz-cone>
+        <ps-viz-box
+          scale="0.2"
+          color="1 1 1"
+          position="-2 2 0"
+          rotation="4"
+        >
+        </ps-viz-box>
+      </ps-viz-repeat>
       <!-- <ps-viz-repeat
         repeat="30 30 10"
         stride="4 3 4"

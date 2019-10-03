@@ -1,6 +1,5 @@
 import PsVizBase from './ps-viz-base';
 import Repeater from '../services/Geometry/InstancedMesh';
-import sceneManager from '../services/SceneManager';
 
 export default class PsVizRepeat extends PsVizBase {
   static get tag() {
@@ -13,18 +12,19 @@ export default class PsVizRepeat extends PsVizBase {
 
   constructor() {
     super();
-    this.vars = {};
+    this.repeaters = [];
   }
 
   childChangeCallback() {
     console.log('childChange callback');
-    this.geo.setVars(this.vars);
+    this.repeaters.forEach(repeater => repeater.setVars());
   }
 
   setValuesFromAttributes(observedAttributes) {
     observedAttributes
       .filter(attrName => this.hasAttribute(attrName))
-      .forEach(attrName => this.geo.setParam(attrName, this.getAttribute(attrName)));
+      .forEach(attrName =>
+        this.repeaters.forEach(repeater => repeater.setParam(attrName, this.getAttribute(attrName))));
   }
 
   connectedCallback() {
@@ -32,44 +32,50 @@ export default class PsVizRepeat extends PsVizBase {
     
     this.graphicsModel = {  
       connectTo: graphicsObject => {
-        console.log('graphicsObject', graphicsObject)
-        sceneManager.addSceneObject(graphicsObject);
-        const { geometry, material } = graphicsObject.mesh;    
-        this.vars.position = graphicsObject.mesh.position;
-        this.vars.rotation = graphicsObject.mesh.rotation;
-        this.vars.scale = graphicsObject.mesh.scale;
-        this.vars.color = graphicsObject.mesh.material.color;
-        this.geo = new Repeater(this.vars);
+        console.log('graphicsObject', graphicsObject.mesh.uuid)
+        const { geometry, material } = graphicsObject.mesh;  
+        const vars = {
+          position: graphicsObject.mesh.position,
+          rotation: graphicsObject.mesh.rotation,
+          scale: graphicsObject.mesh.scale,
+          color: graphicsObject.mesh.material.color,
+        };  
+        const repeater = new Repeater(vars, graphicsObject.mesh.uuid);
+        this.repeaters.push(repeater);
         this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
-        this.geo.init(geometry, material);
+        repeater.init(geometry, material);
         this.setValuesFromAttributes(PsVizRepeat.observedAttributes);
         if (this.parentNode.graphicsModel) {
-          this.parentNode.graphicsModel.connectTo(this.geo);
+          this.parentNode.graphicsModel.connectTo(repeater);
         }
         return {
-          onRemove: () => {
-            console.log('onRemove');
-            sceneManager.addSceneObject(graphicsObject);
+          onRemove: (...args) => {
+            console.log('TODO: onRemove callback', ...args);
           },
           onChange: this.childChangeCallback.bind(this),
         };
-      }
+      },
+      remove: graphicsObject => {
+        const repeaterToRemove = this.repeaters.find(repeater => repeater.uuid === graphicsObject.mesh.uuid);
+        if (this.parentNode.graphicsModel) {
+          this.parentNode.graphicsModel.remove(repeaterToRemove);
+        }
+        this.repeaters = this.repeaters.filter(repeater => repeater !== repeaterToRemove);
+      },
     };
   }
 
   disconnectedCallback() {
-    console.log('ps-viz-repeat disconnected');
-    this.geo.dispose();
-    // TODO: sceneManager.addSceneObject(graphicsObject);
+    this.repeaters.forEach(repeater => repeater.dispose());
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-    if (!this.isMounted || !this.geo) { return; }
-    this.geo.setParam(attrName, newVal);
+    if (!this.isMounted || !this.repeaters.length) { return; }
+    this.repeaters.forEach(repeater => repeater.setParam(attrName, newVal));
     this.callbacks && this.callbacks.onChange();
   }
 
   reset() {
-    this.geo.reset();
+    this.repeaters.forEach(repeater => repeater.reset());
   }
 }

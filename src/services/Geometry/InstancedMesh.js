@@ -12,7 +12,7 @@ class GeoProperties {
 }
 
 export default class Repeater {
-  constructor(vars) {
+  constructor(vars, uuid) {
     this.vars = Object.assign(
       {
         repeat: new Vector3(1, 1, 1),
@@ -39,6 +39,7 @@ export default class Repeater {
       'scale-mod': new VectorAttribute(this.setScaleModulation.bind(this)),
       'color-mod': new VectorAttribute(this.setColorModulation.bind(this)),
     };
+    this.uuid = uuid;
   }
 
   init(geometry, material) {
@@ -85,8 +86,7 @@ export default class Repeater {
     }
   }
 
-  setVars(vars) {
-    this.vars = vars;
+  setVars() {
     this.needsReset = true;
   }
 
@@ -207,7 +207,9 @@ export default class Repeater {
   }
 
   dispose() {
-    console.log('TODO: Repeater.dispose');
+    this.cluster._geometry.dispose();
+    this.cluster._material.dispose();
+    this.geoProperties = null;
   }
 
   getThreeMesh() {

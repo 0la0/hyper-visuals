@@ -26,17 +26,14 @@ export default class PsVizScene extends PsVizBase {
       canvasContainer.setAttribute('livedomignore', '');
       this.appendChild(canvasContainer);
     }
-    this.graphicsObjects = new Set();
     sceneManager.buildScene(isEmbedded ? canvasContainer : undefined);
     
     this.graphicsModel = {
       connectTo: graphicsObject => {
-        this.graphicsObjects.add(graphicsObject);
-        sceneManager.addToScene(graphicsObject.getThreeMesh());
+        sceneManager.addToScene(graphicsObject);
       },
       remove: graphicsObject => {
-        this.graphicsObjects.delete(graphicsObject);
-        sceneManager.removeFromScene(graphicsObject.getThreeMesh());
+        sceneManager.removeFromScene(graphicsObject);
         graphicsObject.dispose && graphicsObject.dispose();
       },
     };
@@ -56,7 +53,6 @@ export default class PsVizScene extends PsVizBase {
     const elapsedTime = now - this.lastAnimationTime;
     const scaledTime = elapsedTime * 0.001;
     this.lastAnimationTime = now;
-    this.graphicsObjects.forEach(g => g.update(scaledTime, now));
     sceneManager.update(scaledTime, now);
     sceneManager.render();
     requestAnimationFrame(this._animate);

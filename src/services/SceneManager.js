@@ -11,6 +11,7 @@ class SceneManager {
     this.effects = [];
     this.sceneObjects = [];
     this.renderEffects = false;
+    this.sceneElements = new Set();
   }
 
   buildScene(rendererContainer) {
@@ -64,15 +65,17 @@ class SceneManager {
   }
 
   addToScene(obj) {
-    this.sceneModel.scene.add(obj);
+    this.sceneElements.add(obj);
+    this.sceneModel.scene.add(obj.getThreeMesh());
   }
 
   removeFromScene(obj) {
-    this.sceneModel.scene.remove(obj);
-    console.log('removedFromScene', obj);
+    this.sceneElements.delete(obj);
+    this.sceneModel.scene.remove(obj.getThreeMesh());
   }
 
   update(elapsedTime, performanceTime) {
+    this.sceneElements.forEach(sceneElement => sceneElement.update(elapsedTime, performanceTime));
     this.sceneObjects.forEach(sceneObject => sceneObject.update(elapsedTime, performanceTime));
   }
 

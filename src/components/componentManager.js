@@ -8,6 +8,7 @@ import PsVizFilterPixelate from './ps-viz-filter-pixelate';
 import PsVizLight from './ps-viz-light';
 import PsVizRepeat from './ps-viz-repeat';
 import PsVizScene from './ps-viz-scene';
+import PsVizSubScene from './ps-viz-sub-scene';
 
 export const components = Object.assign({}, PrimitiveGeometryComponents, {
   PsVizBackground,
@@ -19,6 +20,7 @@ export const components = Object.assign({}, PrimitiveGeometryComponents, {
   PsVizLight,
   PsVizRepeat,
   PsVizScene,
+  PsVizSubScene,
 });
 
 export function defineComponents() {

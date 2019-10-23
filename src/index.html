@@ -29,14 +29,20 @@
         cursor: pointer;
       }
     </style>
-    <script src="./ps-pattern/dist/pspattern.js"></script>
+    <script src="./hyper-patterns/dist/hyperpatterns.js"></script>
     <script src="./psvisuals.js"></script>
     <script>
       let isOn = false;
       function toggle() {
         isOn = !isOn;
         const scene = document.getElementById('scene');
-        isOn ? scene.start() : scene.stop();
+        if (isOn) {
+          document.dispatchEvent(new CustomEvent('CLOCK_START'));
+          scene.start();
+        } else {
+          document.dispatchEvent(new CustomEvent('CLOCK_STOP'));
+          scene.stop();
+        }
       }
       window.addEventListener('resize', () => {
         document.getElementById('scene').setSize(
@@ -49,10 +55,10 @@
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
 
-    <ps-seq>
-      <ps-pat-midi pattern="a:1 a:2 , a:3"></ps-pat-midi>
-      <ps-pat-midi pattern="a:1 a:2 a:3"></ps-pat-midi>
-    </ps-seq>
+    <h-seq>
+      <h-pat-midi pattern="a:1 a:2 , a:3"></h-pat-midi>
+      <h-pat-midi pattern="a:1 a:2 a:3"></h-pat-midi>
+    </h-seq>
 
     <ps-viz-scene embed id="scene">
       <ps-viz-sub-scene>

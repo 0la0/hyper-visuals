@@ -1,7 +1,7 @@
 {
   "name": "hyper-visuals",
   "version": "0.0.1",
-  "description": "graphics and pattern generation with HTML",
+  "description": "Graphics and pattern generation with HTML",
   "main": "dist/hypervisuals.js",
   "scripts": {
     "build": "webpack --mode=development",

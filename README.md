@@ -1,5 +1,5 @@
-# hyper-viz-Markup (graphics markup for phase-scripter)
-3D graphics & pattern generation with HTML
+# Hyper-Visuals
+Graphics and pattern generation with HTML
 
 Development ongoing, documentation to follow.
 
@@ -14,15 +14,15 @@ build: `npm run build`
 ## Usage example 
 
 ```html
-<hyper-viz-scene>
-  <hyper-viz-cube
+<h-viz-scene>
+  <h-viz-cube
     position="10 10 0"
     rotation="0 0 0"
     scale="5 1 1"
     color="0 0 1"
   >
-  </hyper-viz-cube>
-</hyper-viz-scene>
+  </h-viz-cube>
+</h-viz-scene>
 ```
 
 ---

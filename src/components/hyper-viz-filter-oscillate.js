@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import OscillatorFilter from '../services/Filter/Oscillator';
 
-export default class PsVizFilterOscillate extends PsVizBase {
+export default class PsVizFilterOscillate extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-filter-oscillate';
+    return 'h-viz-filter-oscillate';
   }
 
   static get observedAttributes() {

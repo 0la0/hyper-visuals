@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import CloudFilter from '../services/Filter/Clouds';
 
-export default class PsVizFilterCloud extends PsVizBase {
+export default class PsVizFilterCloud extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-filter-cloud';
+    return 'h-viz-filter-cloud';
   }
 
   static get observedAttributes() {

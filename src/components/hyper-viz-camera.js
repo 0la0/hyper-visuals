@@ -1,11 +1,11 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import CameraModel from '../services/Camera';
 
 let instanceIsConnected = false;
 
-export default class PsVizCamera extends PsVizBase {
+export default class PsVizCamera extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-camera';
+    return 'h-viz-camera';
   }
 
   static get observedAttributes() {
@@ -14,7 +14,7 @@ export default class PsVizCamera extends PsVizBase {
 
   connectedCallback() {
     if (instanceIsConnected) {
-      console.error('Error, cannot have multiple ps-viz-camera');
+      console.error('Error, cannot have multiple h-viz-camera');
       return;
     } else {
       instanceIsConnected = true;

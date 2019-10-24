@@ -1,8 +1,8 @@
 {
-  "name": "ps-visuals",
+  "name": "hyper-visuals",
   "version": "0.0.1",
   "description": "graphics and pattern generation with HTML",
-  "main": "dist/psvisuals.js",
+  "main": "dist/hypervisuals.js",
   "scripts": {
     "build": "webpack --mode=development",
     "lint": "eslint src test",

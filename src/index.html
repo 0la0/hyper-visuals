@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS-Markup Example</title>
+    <title>Hyper-Visuals Example</title>
     <style>
       html, body {
         width: 100%;
@@ -30,7 +30,7 @@
       }
     </style>
     <script src="./hyper-patterns/dist/hyperpatterns.js"></script>
-    <script src="./psvisuals.js"></script>
+    <script src="./hypervisuals.js"></script>
     <script>
       let isOn = false;
       function toggle() {
@@ -60,31 +60,31 @@
       <h-pat-midi pattern="a:1 a:2 a:3"></h-pat-midi>
     </h-seq>
 
-    <ps-viz-scene embed id="scene">
-      <ps-viz-sub-scene>
-        <ps-viz-cone
+    <h-viz-scene embed id="scene">
+      <h-viz-sub-scene>
+        <h-viz-cone
           position="fn(10*saw(time)) -10 0"
           rotation="addr(a)"
           scale="1 1 1"
           color="0.5 0 0.8"
         >
-        </ps-viz-cone>
-      </ps-viz-sub-scene>
-      <ps-viz-plane
+        </h-viz-cone>
+      </h-viz-sub-scene>
+      <h-viz-plane
         position="fn(10*sin(time)) -10 0"
         rotation="fn(time*0.25) fn(time) fn(time*0.125)"
         scale="1 1 1"
         color="0.5 0 0.8"
       >
-      </ps-viz-plane>
-      <ps-viz-ring
+      </h-viz-plane>
+      <h-viz-ring
         position="10 10 0"
         rotation="fn(time*0.125) 0 fn(time*0.125)"
         scale="4"
         color="0 0 1"
       >
-      </ps-viz-ring>
-      <!-- <ps-viz-repeat
+      </h-viz-ring>
+      <!-- <h-viz-repeat
         repeat="30 30 10"
         stride="4 3 4"
         pos-mod="0 0 0"
@@ -93,22 +93,22 @@
         color-mod="0 0 0"
         position="10 0 0"
       >
-        <ps-viz-cone
+        <h-viz-cone
           scale="0.1"
           color="1 1 1"
           position="0 0 0"
           rotation="4"
         >
-        </ps-viz-cone>
-        <ps-viz-box
+        </h-viz-cone>
+        <h-viz-box
           scale="0.2"
           color="1 1 1"
           position="-2 2 0"
           rotation="4"
         >
-        </ps-viz-box>
-      </ps-viz-repeat> -->
-      <!-- <ps-viz-repeat
+        </h-viz-box>
+      </h-viz-repeat> -->
+      <!-- <h-viz-repeat
         repeat="30 30 10"
         stride="4 3 4"
         pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
@@ -116,57 +116,57 @@
         scale-mod="mod(sin(time*0.0001*x)) 0 0"
         color-mod="mod(sin(0.00001*time*y)) mod(cos(0.0005*time*x)) mod(squ(0.0001*time))"
       >
-        <ps-viz-triangle
+        <h-viz-triangle
           scale="0.2"
           color="1 1 1"
           position="0 0 0"
           rotation="fn(0.0*time)"
         >
-        </ps-viz-triangle>
-      </ps-viz-repeat> -->
-      <ps-viz-light
+        </h-viz-triangle>
+      </h-viz-repeat> -->
+      <h-viz-light
         position="fn(50*sin(time)) fn(50*cos(0.5*time)) fn(80*cos(0.25*time))"
         color="1 1 1"
       >
-      </ps-viz-light>
-      <ps-viz-background
+      </h-viz-light>
+      <h-viz-background
         color="0 0 0"
         light-color="1 1 1"
         light-intensity="0.5"
       >
-      </ps-viz-background>
-      <ps-viz-camera
+      </h-viz-background>
+      <h-viz-camera
         position="0 0 100"
         rotation="0 0 0"
       >
-      </ps-viz-camera>
-      <!-- <ps-viz-filter-pixelate
+      </h-viz-camera>
+      <!-- <h-viz-filter-pixelate
         amount="fn(20*sin(0.5*time)+20)"
       >
-      </ps-viz-filter-pixelate> -->
-      <!-- <ps-viz-filter-cloud
+      </h-viz-filter-pixelate> -->
+      <!-- <h-viz-filter-cloud
         amplitude="0.2"
         frequency="0.00001"
       >
-      </ps-viz-filter-cloud> -->
-      <!-- <ps-viz-filter-oscillate
+      </h-viz-filter-cloud> -->
+      <!-- <h-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
         period="5"
         rotation="fn(-2.5*time)"
         type="saw"
       >
-      </ps-viz-filter-oscillate>
-      <ps-viz-filter-oscillate
+      </h-viz-filter-oscillate>
+      <h-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
         period="10"
         rotation="fn(5*time)"
         type="sin"
       >
-      </ps-viz-filter-oscillate> -->
-      <!-- <ps-viz-filter-afterimage>
-      </ps-viz-filter-afterimage> -->
-    </ps-viz-scene>
+      </h-viz-filter-oscillate> -->
+      <!-- <h-viz-filter-afterimage>
+      </h-viz-filter-afterimage> -->
+    </h-viz-scene>
   </body>  
 </html>

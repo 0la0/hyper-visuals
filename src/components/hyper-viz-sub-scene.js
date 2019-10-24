@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import sceneManager from '../services/SceneManager';
 
-export default class PsVizSubScene extends PsVizBase {
+export default class PsVizSubScene extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-sub-scene';
+    return 'h-viz-sub-scene';
   }
 
   connectedCallback() {

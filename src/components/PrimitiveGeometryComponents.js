@@ -13,159 +13,159 @@ import {
   Ring,
 } from '../services/Geometry/PrimitiveGeometry';
 
-class PsVizBox extends PrimitiveGeometryBase {
+class HyperVizBox extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-box';
+    return 'h-viz-box';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Box();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizCircle extends PrimitiveGeometryBase {
+class HyperVizCircle extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-circle';
+    return 'h-viz-circle';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Circle();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizCone extends PrimitiveGeometryBase {
+class HyperVizCone extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-cone';
+    return 'h-viz-cone';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Cone();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizCylinder extends PrimitiveGeometryBase {
+class HyperVizCylinder extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-cylinder';
+    return 'h-viz-cylinder';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Cylinder();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizDodecahedron extends PrimitiveGeometryBase {
+class HyperVizDodecahedron extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-dodecahedron';
+    return 'h-viz-dodecahedron';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Dodecahedron();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizOctahedron extends PrimitiveGeometryBase {
+class HyperVizOctahedron extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-octahedron';
+    return 'h-viz-octahedron';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Octahedron();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizPlane extends PrimitiveGeometryBase {
+class HyperVizPlane extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-plane';
+    return 'h-viz-plane';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Plane();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizSphere extends PrimitiveGeometryBase {
+class HyperVizSphere extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-sphere';
+    return 'h-viz-sphere';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Sphere();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizTetrahedron extends PrimitiveGeometryBase {
+class HyperVizTetrahedron extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-tetrahedron';
+    return 'h-viz-tetrahedron';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Tetrahedron();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizTriangle extends PrimitiveGeometryBase {
+class HyperVizTriangle extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-triangle';
+    return 'h-viz-triangle';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Triangle();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
-class PsVizRing extends PrimitiveGeometryBase {
+class HyperVizRing extends PrimitiveGeometryBase {
   static get tag() {
-    return 'ps-viz-ring';
+    return 'h-viz-ring';
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.geometry = new Ring();
-    super.setValuesFromAttributes(PsVizCone.observedAttributes);
+    super.setValuesFromAttributes(HyperVizCone.observedAttributes);
     super.connect();
   }
 }
 
 export default {
-  PsVizBox,
-  PsVizCircle,
-  PsVizCone,
-  PsVizCylinder,
-  PsVizDodecahedron,
-  PsVizOctahedron,
-  PsVizPlane,
-  PsVizSphere,
-  PsVizTetrahedron,
-  PsVizTriangle,
-  PsVizRing,
+  HyperVizBox,
+  HyperVizCircle,
+  HyperVizCone,
+  HyperVizCylinder,
+  HyperVizDodecahedron,
+  HyperVizOctahedron,
+  HyperVizPlane,
+  HyperVizSphere,
+  HyperVizTetrahedron,
+  HyperVizTriangle,
+  HyperVizRing,
 };

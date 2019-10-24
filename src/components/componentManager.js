@@ -1,14 +1,14 @@
 import PrimitiveGeometryComponents from './PrimitiveGeometryComponents';
-import PsVizBackground from './ps-viz-background';
-import PsVizCamera from './ps-viz-camera';
-import PsVizFilterAfterImage from './ps-viz-filter-afterimage';
-import PsVizFilterClouds from './ps-viz-filter-cloud';
-import PsVizFilterOscillate from './ps-viz-filter-oscillate';
-import PsVizFilterPixelate from './ps-viz-filter-pixelate';
-import PsVizLight from './ps-viz-light';
-import PsVizRepeat from './ps-viz-repeat';
-import PsVizScene from './ps-viz-scene';
-import PsVizSubScene from './ps-viz-sub-scene';
+import PsVizBackground from './hyper-viz-background';
+import PsVizCamera from './hyper-viz-camera';
+import PsVizFilterAfterImage from './hyper-viz-filter-afterimage';
+import PsVizFilterClouds from './hyper-viz-filter-cloud';
+import PsVizFilterOscillate from './hyper-viz-filter-oscillate';
+import PsVizFilterPixelate from './hyper-viz-filter-pixelate';
+import PsVizLight from './hyper-viz-light';
+import PsVizRepeat from './hyper-viz-repeat';
+import PsVizScene from './hyper-viz-scene';
+import PsVizSubScene from './hyper-viz-sub-scene';
 
 export const components = Object.assign({}, PrimitiveGeometryComponents, {
   PsVizBackground,

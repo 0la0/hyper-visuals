@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import AfterImageFilter from '../services/Filter/AfterImage';
 
-export default class PsVizFilterAfterImage extends PsVizBase {
+export default class PsVizFilterAfterImage extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-filter-afterimage';
+    return 'h-viz-filter-afterimage';
   }
 
   static get observedAttributes() {

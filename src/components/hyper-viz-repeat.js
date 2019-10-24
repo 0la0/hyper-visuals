@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import Repeater from '../services/Geometry/InstancedMesh';
 
-export default class PsVizRepeat extends PsVizBase {
+export default class PsVizRepeat extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-repeat';
+    return 'h-viz-repeat';
   }
 
   static get observedAttributes() {

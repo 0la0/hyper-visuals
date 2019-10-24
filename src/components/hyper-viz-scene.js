@@ -1,22 +1,22 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import sceneManager from '../services/SceneManager';
 
 let instanceIsConnected = false;
 
-export default class PsVizScene extends PsVizBase {
+export default class PsVizScene extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-scene';
+    return 'h-viz-scene';
   }
 
   connectedCallback() {
     if (instanceIsConnected) {
-      console.error('Error, cannot have multiple ps-viz-scene');
+      console.error('Error, cannot have multiple h-viz-scene');
       return;
     } else {
       instanceIsConnected = true;
     }
     super.connectedCallback();
-    console.log('ps-viz-scene connected');
+    console.log('h-viz-scene connected');
     let canvasContainer;
     const isEmbedded = this.hasAttribute('embed');
     if (isEmbedded) {

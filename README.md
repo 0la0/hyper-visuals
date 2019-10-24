@@ -1,4 +1,4 @@
-# PS-Viz-Markup (graphics markup for phase-scripter)
+# hyper-viz-Markup (graphics markup for phase-scripter)
 3D graphics & pattern generation with HTML
 
 Development ongoing, documentation to follow.
@@ -14,15 +14,15 @@ build: `npm run build`
 ## Usage example 
 
 ```html
-<ps-viz-scene>
-  <ps-viz-cube
+<hyper-viz-scene>
+  <hyper-viz-cube
     position="10 10 0"
     rotation="0 0 0"
     scale="5 1 1"
     color="0 0 1"
   >
-  </ps-viz-cube>
-</ps-viz-scene>
+  </hyper-viz-cube>
+</hyper-viz-scene>
 ```
 
 ---

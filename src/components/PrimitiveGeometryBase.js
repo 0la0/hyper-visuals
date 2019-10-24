@@ -1,6 +1,6 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 
-export default class PrimitiveGeometryBase extends PsVizBase {
+export default class PrimitiveGeometryBase extends HyperVizBase {
   static get observedAttributes() {
     return [ 'position', 'rotation', 'scale', 'color', ];
   }

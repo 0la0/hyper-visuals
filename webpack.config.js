@@ -12,9 +12,9 @@ const webpackConfig = {
   output: {
     publicPath: 'dist/',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'psvisuals.js',
-    sourceMapFilename: 'psvisuals.js.map',
-    library: 'ps-visuals',
+    filename: 'hypervisuals.js',
+    sourceMapFilename: 'hypervisuals.js.map',
+    library: 'hyper-visuals',
     libraryTarget: 'umd',
   },
   devtool: 'source-map',

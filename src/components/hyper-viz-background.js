@@ -1,11 +1,11 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import BackgroundModel from '../services/BackgroundModel';
 
 let instanceIsConnected = false;
 
-export default class PsVizBackground extends PsVizBase {
+export default class PsVizBackground extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-background';
+    return 'h-viz-background';
   }
 
   static get observedAttributes() {
@@ -14,7 +14,7 @@ export default class PsVizBackground extends PsVizBase {
 
   connectedCallback() {
     if (instanceIsConnected) {
-      console.error('Error, cannot have multiple ps-viz-background');
+      console.error('Error, cannot have multiple h-viz-background');
       return;
     } else {
       instanceIsConnected = true;

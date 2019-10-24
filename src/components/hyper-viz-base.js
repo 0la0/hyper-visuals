@@ -1,4 +1,4 @@
-export default class PsVizBase extends HTMLElement {
+export default class HyperVizBase extends HTMLElement {
   constructor() {
     super();
     this.isMounted = false;

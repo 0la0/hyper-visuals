@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import Light from '../services/Light';
 
-export default class PsVizLight extends PsVizBase {
+export default class PsVizLight extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-light';
+    return 'h-viz-light';
   }
 
   static get observedAttributes() {
@@ -23,7 +23,7 @@ export default class PsVizLight extends PsVizBase {
   }
 
   disconnectedCallback() {
-    console.log('ps-viz-light disconnected');
+    console.log('h-viz-light disconnected');
     this.onRemove && this.onRemove();
     // this.light.dispose();
   }

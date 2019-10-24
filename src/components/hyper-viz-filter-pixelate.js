@@ -1,9 +1,9 @@
-import PsVizBase from './ps-viz-base';
+import HyperVizBase from './hyper-viz-base';
 import PixelateFilter from '../services/Filter/Pixelate';
 
-export default class PsVizFilterPixelate extends PsVizBase {
+export default class PsVizFilterPixelate extends HyperVizBase {
   static get tag() {
-    return 'ps-viz-filter-pixelate';
+    return 'h-viz-filter-pixelate';
   }
 
   static get observedAttributes() {

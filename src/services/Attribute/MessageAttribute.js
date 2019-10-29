@@ -6,7 +6,7 @@ export default class MessageAttribute {
     this.eventHandler = (event) => {
       const message = event.detail;
       this.animationScheduler.submit(
-        new AnimationSchedule(message.time.timeStamp, message.note)
+        new AnimationSchedule(message.time, message.note)
       );
     };
     this.cb = cb;

@@ -32,7 +32,7 @@ export default class BaseGeometry {
     this.mesh.scale.set(x, y, z);
   }
 
-  setColor(r, g, b) {
+  setColor(r = 0, g = 0, b = 0) {
     this.mesh.material.color = new Color(r, g, b);
   }
 

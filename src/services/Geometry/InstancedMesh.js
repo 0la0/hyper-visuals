@@ -20,7 +20,7 @@ export default class Repeater {
         positionMod: { x: () => 0, y: () => 0, z: () => 0 },
         rotationMod: { x: () => 0, y: () => 0, z: () => 0 },
         scaleMod: { x: () => 0, y: () => 0, z: () => 0 },
-        colorMod: { r: () => 0, g: () => 0, b: () => 0 },
+        colorMod: { r: () => vars.color.r, g: () => vars.color.g, b: () => vars.color.b },
       },
       {
         lastPosition: vars.position.clone(),

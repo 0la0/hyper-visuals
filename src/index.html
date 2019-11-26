@@ -35,138 +35,44 @@
       let isOn = false;
       function toggle() {
         isOn = !isOn;
-        const scene = document.getElementById('scene');
+        const scenes = [ ...document.getElementsByTagName('h-viz-scene') ];
         if (isOn) {
           document.dispatchEvent(new CustomEvent('CLOCK_START'));
-          scene.start();
+          scenes.forEach(scene => scene.start());
         } else {
           document.dispatchEvent(new CustomEvent('CLOCK_STOP'));
-          scene.stop();
+          scenes.forEach(scene => scene.stop());
         }
       }
       window.addEventListener('resize', () => {
-        document.getElementById('scene').setSize(
-          window.innerWidth,
-          window.innerHeight
-        );
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        [ ...document.getElementsByTagName('h-viz-scene') ]
+          .forEach(scene => scene.setSize(w, h));
       });
     </script>
   </head>
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
 
-    <h-seq>
-      <h-pat-midi pattern="a:1 a:2 , a:3"></h-pat-midi>
-      <h-pat-midi pattern="a:1 a:2 a:3"></h-pat-midi>
-    </h-seq>
 
-    <h-viz-scene embed id="scene">
-      <h-viz-sub-scene>
-        <h-viz-cone
-          position="fn(10*saw(time)) -10 0"
-          rotation="addr(a)"
-          scale="1 1 1"
-          color="0.5 0 0.8"
-        >
-        </h-viz-cone>
-      </h-viz-sub-scene>
-      <h-viz-plane
-        position="fn(10*sin(time)) -10 0"
-        rotation="fn(time*0.25) fn(time) fn(time*0.125)"
-        scale="1 1 1"
-        color="0.5 0 0.8"
-      >
-      </h-viz-plane>
-      <h-viz-ring
-        position="10 10 0"
-        rotation="fn(time*0.125) 0 fn(time*0.125)"
-        scale="4"
-        color="0 0 1"
-      >
-      </h-viz-ring>
-      <!-- <h-viz-repeat
+    <h-viz-scene>
+      <h-viz-repeat
         repeat="30 30 10"
-        stride="4 3 4"
-        pos-mod="0 0 0"
-        rot-mod="0 0 0"
-        scale-mod="0 0 0"
-        color-mod="0 0 0"
-        position="10 0 0"
-      >
-        <h-viz-cone
-          scale="0.1"
-          color="1 1 1"
-          position="0 0 0"
-          rotation="4"
-        >
-        </h-viz-cone>
-        <h-viz-box
-          scale="0.2"
-          color="1 1 1"
-          position="-2 2 0"
-          rotation="4"
-        >
-        </h-viz-box>
-      </h-viz-repeat> -->
-      <!-- <h-viz-repeat
-        repeat="30 30 10"
-        stride="4 3 4"
-        pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
-        rot-mod="mod(10*sin(0.000001*time*y*z)) 0 0"
-        scale-mod="mod(sin(time*0.0001*x)) 0 0"
-        color-mod="mod(sin(0.00001*time*y)) mod(cos(0.0005*time*x)) mod(squ(0.0001*time))"
+        stride="5 3 4"
       >
         <h-viz-triangle
           scale="0.2"
-          color="1 1 1"
-          position="0 0 0"
-          rotation="fn(0.0*time)"
+          color="0.2 1 0.7"
         >
         </h-viz-triangle>
-      </h-viz-repeat> -->
-      <h-viz-light
-        position="fn(50*sin(time)) fn(50*cos(0.5*time)) fn(80*cos(0.25*time))"
-        color="1 1 1"
+      </h-viz-repeat>
+      <h-viz-filter-cloud
+        amplitude="0.5"
+        frequency="0.0001"
       >
-      </h-viz-light>
-      <h-viz-background
-        color="0 0 0"
-        light-color="1 1 1"
-        light-intensity="0.5"
-      >
-      </h-viz-background>
-      <h-viz-camera
-        position="0 0 100"
-        rotation="0 0 0"
-      >
-      </h-viz-camera>
-      <!-- <h-viz-filter-pixelate
-        amount="fn(20*sin(0.5*time)+20)"
-      >
-      </h-viz-filter-pixelate> -->
-      <!-- <h-viz-filter-cloud
-        amplitude="0.2"
-        frequency="0.00001"
-      >
-      </h-viz-filter-cloud> -->
-      <!-- <h-viz-filter-oscillate
-        amplitude="0.05"
-        frequency="0.005"
-        period="5"
-        rotation="fn(-2.5*time)"
-        type="saw"
-      >
-      </h-viz-filter-oscillate>
-      <h-viz-filter-oscillate
-        amplitude="0.05"
-        frequency="0.005"
-        period="10"
-        rotation="fn(5*time)"
-        type="sin"
-      >
-      </h-viz-filter-oscillate> -->
-      <!-- <h-viz-filter-afterimage>
-      </h-viz-filter-afterimage> -->
+      </h-viz-filter-cloud>
     </h-viz-scene>
+
   </body>  
 </html>

@@ -59,19 +59,47 @@
     <h-viz-scene>
       <h-viz-repeat
         repeat="30 30 10"
-        stride="5 3 4"
+        stride="fn(5+10*saw(time*0.1)) fn(10*sin(time*0.05)) fn(5*squ(time*0.025))"
+        rotation="fn(time*0.015)"
+        rot-mod="mod(10*sin(0.0001*time*z)) mod(10*squ(0.0001*x*z)) 45"
+        pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
+        color-mod="mod(0.5+sin(0.01*y)) mod(0.5+sin(0.01*y)) mod(0.5+sin(0.01*z))"  
+      >
+        <h-viz-box
+          scale="0.15 0.9 0.1"
+          color="0.2 1 0.7"
+        >
+        </h-viz-box>
+      </h-viz-repeat>
+      <h-viz-repeat
+        repeat="30 30 10"
+        stride="fn(5+10*saw(2+time*0.1)) fn(10*sin(2.4+time*0.05)) fn(5*squ(time*0.025))"
+        rotation="fn(-time*0.015)"
+        rot-mod="mod(10*sin(0.0001*time*z)) mod(10*squ(0.0001*x*z)) 45"
+        pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
+        color-mod="mod(0.5+0.5*sin(time*0.001*z)) 0 0"  
       >
         <h-viz-triangle
-          scale="0.2"
-          color="0.2 1 0.7"
+          scale="0.15 0.9 0.1"
+          color="1 0.5 0.5"
         >
         </h-viz-triangle>
       </h-viz-repeat>
-      <h-viz-filter-cloud
-        amplitude="0.5"
-        frequency="0.0001"
+      <h-viz-filter-oscillate
+        amplitude="fn(0.05+0.05*sin(time*0.1))"
+        frequency="0.005"
+        period="10"
+        type="sin"
       >
-      </h-viz-filter-cloud>
+      </h-viz-filter-oscillate>
+      <h-viz-filter-oscillate
+        amplitude="fn(0.1+0.1*sin(time*0.1))"
+        frequency="fn(0.005*sin(time*0.005))"
+        period="15"
+        type="squ"
+      >
+      </h-viz-filter-oscillate>
+      
     </h-viz-scene>
 
   </body>  

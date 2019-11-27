@@ -3,35 +3,19 @@ Graphics and pattern generation with HTML
 
 Development ongoing, documentation to follow.
 
+[Examples](examples.md)
+
 ## Build scripts
 install dependencies: `npm install`  
 run tests: `npm test`  
 run linter: `npm run lint`  
 build: `npm run build`  
 
----
-
-## Usage example 
-
-```html
-<h-viz-scene>
-  <h-viz-cube
-    position="10 10 0"
-    rotation="0 0 0"
-    scale="5 1 1"
-    color="0 0 1"
-  >
-  </h-viz-cube>
-</h-viz-scene>
-```
-
----
-
 ## About
 
 The aim of this project is to:
 * Create novel visual patterns with high level abstractions
-* Provide full timing & animation compatibilty with [ps-markup](https://github.com/0la0/ps-markup)
+* Provide full timing & animation compatibilty with [hyper-patterns](https://github.com/0la0/hyper-patterns) and [hyper-sound](https://github.com/0la0/hyper-sound)
 * Be used as a tool for live coding graphics
 * Serve as a standalone HTML graphics library
 

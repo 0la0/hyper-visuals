@@ -43,8 +43,8 @@ float oscillate(float x) {
 
 void main() {
   vec2 rotatedVec = rotateVector(vUv, rotation);
-  float modY = rotatedVec.y + amplitude * oscillate((rotatedVec.x * period) + time * frequency);
-  vec2 modulatedPosition = vec2(rotatedVec.x, modY);
+  float modY = vUv.y + amplitude * oscillate((rotatedVec.x * period) + time * frequency);
+  vec2 modulatedPosition = vec2(vUv.x, modY);
   vec2 wrappedPosition = vec2(wrap(modulatedPosition.x), wrap(modulatedPosition.y));
   gl_FragColor = texture2D(tDiffuse, wrappedPosition);
 }

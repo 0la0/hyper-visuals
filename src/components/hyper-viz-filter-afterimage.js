@@ -7,7 +7,7 @@ export default class PsVizFilterAfterImage extends HyperVizBase {
   }
 
   static get observedAttributes() {
-    return [];
+    return [ 'amount', ];
   }
 
   connectedCallback() {

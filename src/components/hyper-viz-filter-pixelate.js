@@ -7,7 +7,7 @@ export default class PsVizFilterPixelate extends HyperVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'amount' ];
+    return [ 'amount', ];
   }
 
   connectedCallback() {

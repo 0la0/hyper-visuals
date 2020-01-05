@@ -2,8 +2,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 
 export default class Shader {
   constructor(uniforms, vertexShader, fragmentShader) {
-    this.shaderPass = new ShaderPass({ uniforms, vertexShader, fragmentShader, });
-        
+    this.shaderPass = new ShaderPass({ uniforms, vertexShader, fragmentShader, });   
   }
 
   setUniform(key, value) {

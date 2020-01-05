@@ -55,52 +55,92 @@
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
 
-
     <h-viz-scene>
       <h-viz-repeat
         repeat="30 30 10"
-        stride="fn(5+10*saw(time*0.1)) fn(10*sin(time*0.05)) fn(5*squ(time*0.025))"
-        rotation="fn(time*0.015)"
-        rot-mod="mod(10*sin(0.0001*time*z)) mod(10*squ(0.0001*x*z)) 45"
-        pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
-        color-mod="mod(0.5+sin(0.01*y)) mod(0.5+sin(0.01*y)) mod(0.5+sin(0.01*z))"  
-      >
-        <h-viz-box
-          scale="0.15 0.9 0.1"
-          color="0.2 1 0.7"
-        >
-        </h-viz-box>
-      </h-viz-repeat>
-      <h-viz-repeat
-        repeat="30 30 10"
-        stride="fn(5+10*saw(2+time*0.1)) fn(10*sin(2.4+time*0.05)) fn(5*squ(time*0.025))"
-        rotation="fn(-time*0.015)"
-        rot-mod="mod(10*sin(0.0001*time*z)) mod(10*squ(0.0001*x*z)) 45"
-        pos-mod="mod(40*squ(0.00001*time*y)) mod(20*sin(0.0001*time*z)) 0"
-        color-mod="mod(0.5+0.5*sin(time*0.001*z)) 0 0"  
+        stride="5 3 4"
+        rotation="fn(0.1*time)"
       >
         <h-viz-triangle
-          scale="0.15 0.9 0.1"
-          color="1 0.5 0.5"
+          scale="0.2"
+          color="0.8 0.9 1"
         >
         </h-viz-triangle>
       </h-viz-repeat>
-      <h-viz-filter-oscillate
-        amplitude="fn(0.05+0.05*sin(time*0.1))"
+
+      <!-- <h-viz-filter-oscillate
+        amplitude="0.05"
         frequency="0.005"
         period="10"
         type="sin"
-      >
-      </h-viz-filter-oscillate>
-      <h-viz-filter-oscillate
-        amplitude="fn(0.1+0.1*sin(time*0.1))"
-        frequency="fn(0.005*sin(time*0.005))"
-        period="15"
-        type="squ"
-      >
-      </h-viz-filter-oscillate>
-      
+      > -->
+        <h-viz-filter-oscillate
+          amplitude="0.1"
+          frequency="0.001"
+          period="15"
+          rotation="-45"
+          type="sin"
+        >
+        </h-viz-filter-oscillate>
+        <h-viz-filter-afterimage
+          amount="0.94"
+        >
+        </h-viz-filter-afterimage>
+        <!-- <h-viz-filter-oscillate
+          amplitude="0.1"
+          frequency="0.001"
+          period="5"
+          type="sin"
+          rotation="45"
+        >
+        </h-viz-filter-oscillate> -->
+      <!-- </h-viz-filter-oscillate> -->
+
     </h-viz-scene>
+
+    <!-- <h-viz-scene>
+      <h-viz-repeat
+        repeat="30 1 20"
+        stride="fn(5+10*saw(time*0.1)) fn(10*sin(time*0.05)) fn(5*squ(time*0.025))"
+        rot-mod="mod(0.0000001*time*y*z) mod(0.0000001*time*x*z) mod(0.0003*time)"
+        rotation="fn(100*squ(time*0.125))"
+      >
+        <h-viz-box
+          scale="0.1 3 0.1"
+          color="fn(0.7+0.3*sin(time*0.1)) fn(0.7+0.3*sin(time*0.1)) 1"
+        >
+        </h-viz-box>
+      </h-viz-repeat> 
+
+      <h-viz-repeat
+        repeat="50 10 1"
+        stride="2.5 10 10"
+        rot-mod="mod(10*sin(0.000001*time*y*z)) mod(10*sin(0.0000001*time*x*z)) mod(10*sin(0.0000001*time*x*z))"
+        scale-mod="mod(2*sin(2+time*0.0005)) mod(4*sin(time*0.0005)) mod(2*sin(5+time*0.0005))"
+      >
+        <h-viz-octahedron
+          scale="0.5"
+          color="0.9"
+        >
+        </h-viz-octahedron>
+      </h-viz-repeat> 
+      <h-viz-light
+        position="100 40 100"
+        color="0.9 1 0.9"
+      >
+      </h-viz-light>  
+      <h-viz-light
+        position="100 -40 100"
+        color="0.9 0.9 1"
+      >
+      </h-viz-light>  
+      <h-viz-background
+        color="1 1 1"
+        light-color="1 1 1"
+        light-intensity="0.8"
+      >
+      </h-viz-background>  
+    </h-viz-scene> -->
 
   </body>  
 </html>

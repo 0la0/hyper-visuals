@@ -1,4 +1,8 @@
 
+export function getRandomSign() {
+  return Math.random() < 0.5 ? -1 : 1;
+}
+
 export function parseParens(stringValue) {
   const index1 = stringValue.indexOf('(');
   const index2 = stringValue.lastIndexOf(')');

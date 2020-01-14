@@ -26,7 +26,7 @@ export default class AfterImageFilter {
     this.paramMap[name].setValue(value);
   }
 
-  setAmount(amount) {
+  setAmount(amount = 0) {
     this.afterImagePass.shaderPass.uniforms.damp.value = amount;
   }
 

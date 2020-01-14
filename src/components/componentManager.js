@@ -6,6 +6,8 @@ import PsVizFilterClouds from './hyper-viz-filter-cloud';
 import PsVizFilterOscillate from './hyper-viz-filter-oscillate';
 import PsVizFilterPixelate from './hyper-viz-filter-pixelate';
 import PsVizLight from './hyper-viz-light';
+import PsVizParticleEmitter from './hyper-viz-particle-emitter';
+import PsVizParticleWind from './hyper-viz-particle-wind';
 import PsVizRepeat from './hyper-viz-repeat';
 import PsVizScene from './hyper-viz-scene';
 import PsVizSubScene from './hyper-viz-sub-scene';
@@ -18,6 +20,8 @@ export const components = Object.assign({}, PrimitiveGeometryComponents, {
   PsVizFilterOscillate,
   PsVizFilterPixelate,
   PsVizLight,
+  PsVizParticleEmitter,
+  PsVizParticleWind,
   PsVizRepeat,
   PsVizScene,
   PsVizSubScene,

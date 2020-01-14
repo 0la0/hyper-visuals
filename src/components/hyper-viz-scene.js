@@ -1,3 +1,4 @@
+import Stats from 'stats.js';
 import HyperVizBase from './hyper-viz-base';
 import sceneManager from '../services/SceneManager';
 
@@ -37,9 +38,15 @@ export default class PsVizScene extends HyperVizBase {
         graphicsObject.dispose && graphicsObject.dispose();
       },
     };
+    this.showStats = this.hasAttribute('stats');
     this.lastAnimationTime = performance.now();
     this._animate = this.animate.bind(this);
     this.isOn = false;
+
+    if (this.showStats) {
+      this.stats = new Stats();
+      document.body.appendChild(this.stats.dom);
+    }
   }
 
   disconnectedCallback() {
@@ -49,12 +56,14 @@ export default class PsVizScene extends HyperVizBase {
   // TODO: add buffer to "now"
   animate() {
     if (!this.isOn) { return; }
+    this.stats && this.stats.begin();
     const now = performance.now();
     const elapsedTime = now - this.lastAnimationTime;
     const scaledTime = elapsedTime * 0.001;
     this.lastAnimationTime = now;
     sceneManager.update(scaledTime, now);
     sceneManager.render();
+    this.stats && this.stats.end();
     requestAnimationFrame(this._animate);
   }
 

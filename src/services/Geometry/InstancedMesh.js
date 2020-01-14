@@ -1,4 +1,4 @@
-import { Color, Euler, Quaternion, Vector3, Vector2 } from 'three';
+import { Color, Euler, Quaternion, Vector3 } from 'three';
 import InstancedMesh from './InstanceMeshProvider';
 import VectorAttribute from '../Attribute/VectorAttribute';
 

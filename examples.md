@@ -72,7 +72,7 @@
     color="0 0.5 1"
   >
   </h-viz-ring>
-</h-viz-scene>s
+</h-viz-scene>
 ```
 
 ## Animate with Sequences
@@ -302,7 +302,22 @@
 </h-viz-scene>
 ```
 
-### Complex Examples
+### Motion Blur
+```html
+<h-viz-scene>
+  <h-viz-ring
+    position="fn(10*cos(time*0.75)) 10 0"
+    rotation="fn(time*0.25) 0 fn(time*0.125)"
+    scale="4"
+    color="0 0.5 1"
+  >
+  </h-viz-ring>
+  <h-viz-filter-afterimage amount="0.95"></h-viz-filter-afterimage>
+</h-viz-scene>
+```
+
+---
+## Complex Examples
 ```html
 <h-viz-scene>
   <h-viz-repeat

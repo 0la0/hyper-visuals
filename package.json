@@ -12,6 +12,7 @@
   "author": "Luke Anderson",
   "license": "ISC",
   "dependencies": {
+    "stats.js": "^0.17.0",
     "three": "^0.107.0",
     "three-instanced-mesh": "^0.96.2"
   },

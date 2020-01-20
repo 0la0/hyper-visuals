@@ -56,15 +56,21 @@
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
 
     <h-viz-scene stats>
-      <h-viz-particle-wind direction="1 0 0">
-        <h-viz-particle-emitter>
+      <h-viz-particle-swarm goal="50 50 0">
+        <h-viz-particle-emitter
+          position="0 0 0"
+          position-jitter="20 20 20"
+          ttl="9000"
+          num="500"
+        >
           <h-viz-box
             scale="0.5"
             color="0 0.5 1"
           >
           </h-viz-box>
-        </h-viz-particle-emitter>
-      </h-viz-particle-wind>
+        </h-viz-particle-emitter
+        >
+      </h-viz-particle-swarm>
       
       <!-- <h-viz-filter-afterimage amount="0.99"></h-viz-filter-afterimage>
       <h-viz-filter-oscillate
@@ -82,6 +88,12 @@
         rotation="45"
       >
       </h-viz-filter-oscillate> -->
+      
+      <h-viz-light
+        position="10 15 15"
+        color="1 1 1"
+      >
+      </h-viz-light>
     </h-viz-scene>
     
 

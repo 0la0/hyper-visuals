@@ -7,7 +7,7 @@ export default class PsVizParticleEmitter extends HyperVizBase {
   }
 
   static get observedAttributes() {
-    return [ 'size', ];
+    return [ 'position', 'position-jitter', 'ttl', 'num' ];
   }
 
   connectedCallback() {
@@ -15,7 +15,7 @@ export default class PsVizParticleEmitter extends HyperVizBase {
     this.particleFields = [];
 
     this.graphicsModel = {  
-      connectTo: graphicsObject => {
+      connectTo: graphicsObject => {  
         const { geometry, material } = graphicsObject.mesh;  
         const vars = {
           position: graphicsObject.mesh.position,
@@ -23,7 +23,6 @@ export default class PsVizParticleEmitter extends HyperVizBase {
           scale: graphicsObject.mesh.scale,
           color: graphicsObject.mesh.material.color,
         };  
-        // TODO: rename to "ParticleField"
         const particleField = new ParticleField(vars, graphicsObject.mesh.uuid);
         this.particleFields.push(particleField);
         this.setValuesFromAttributes(PsVizParticleEmitter.observedAttributes);
@@ -62,5 +61,10 @@ export default class PsVizParticleEmitter extends HyperVizBase {
 
   disconnectedCallback() {}
 
-  attributeChangedCallback(attrName, oldVal, newVal) {}
+  attributeChangedCallback(attrName, oldVal, newVal) {
+    if (!this.particleFields) {
+      return;
+    }
+    this.particleFields.forEach(instance => instance.setParam(attrName, newVal));
+  }
 }

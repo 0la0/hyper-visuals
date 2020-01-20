@@ -96,17 +96,14 @@ export default class ParticleField {
 
   setPosition(x, y, z) {
     this.vars.position.set(x, y, z);
-    this.needsReset = true;
   }
 
   setPositionJitter(x, y, z) {
     this.vars.positionJitter.set(x, y, z);
-    this.needsReset = true;
   }
   
   setTimeToLive(ttl) {
     this.vars.ttl = ttl;
-    this.needsReset = true;
   }
 
   setNumberOfInstances(numInstances) {
@@ -120,18 +117,17 @@ export default class ParticleField {
       this.reset();
     }
     const elapsedTimeMs = elapsedTime * 1000;
+    this.particleFieldForces.forEach(particleFieldForce =>
+      particleFieldForce.update(elapsedTime, performanceTime, this.particles));
     this.particles.forEach((particle, index) => {
       particle.update(elapsedTimeMs);
-      this.particleFieldForces.forEach(particleFieldForce => {
-        particleFieldForce.applyToParticle(particle);
-      });
-
       if (particle.ttl < 0) {
         const particleParams = this._getNewParticleParameters();
         particle.position = particleParams.position;
         particle.rotation = particleParams.rotation;
         particle.scale = particleParams.scale;
         particle.ttl = particleParams.ttl;
+        particle.reset();
       }
 
       this.cluster.setPositionAt(index, particle.position.clone());

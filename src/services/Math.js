@@ -1,3 +1,4 @@
+import { Vector3 } from 'three';
 
 export function getRandomSign() {
   return Math.random() < 0.5 ? -1 : 1;
@@ -19,4 +20,12 @@ export function numericOrDefault(stringValue = '', defaultValue = 0) {
     return defaultValue;
   }
   return numericValue;
+}
+
+export function getRandomVector(magnitude = 1) {
+  return new Vector3(
+    getRandomSign() * Math.random() * magnitude,
+    getRandomSign() * Math.random() * magnitude,
+    getRandomSign() * Math.random() * magnitude
+  );
 }

@@ -1,13 +1,13 @@
 import HyperVizBase from './hyper-viz-base';
-import ParticleFieldSwarm from '../services/Particle/ParticleFieldSwarm';
+import ParticleFlowField from '../services/Particle/ParticleFlowField';
 
-export default class PsVizParticleSwarm extends HyperVizBase {
+export default class PsVizParticleFlow extends HyperVizBase {
   static get tag() {
-    return 'h-viz-particle-swarm';
+    return 'h-viz-particle-flow';
   }
 
   static get observedAttributes() {
-    return [ 'position', 'rotation', 'size', 'color' ];
+    return [];
   }
 
   connectedCallback() {
@@ -15,10 +15,10 @@ export default class PsVizParticleSwarm extends HyperVizBase {
 
     this.graphicsModel = {  
       connectTo: graphicsObject => {
-        this.particleFieldSwarm = new ParticleFieldSwarm();
-        graphicsObject.setParticleFieldForce(this.particleFieldSwarm);
+        this.particleFlowField = new ParticleFlowField();
+        graphicsObject.setParticleFieldForce(this.particleFlowField);
 
-        this.setValuesFromAttributes(PsVizParticleSwarm.observedAttributes);
+        this.setValuesFromAttributes(PsVizParticleFlow.observedAttributes);
         if (this.parentNode.graphicsModel) {
           this.parentNode.graphicsModel.connectTo(graphicsObject);
           graphicsObject.onDisconnect = this.parentNode.graphicsModel.remove.bind(this.parentNode, graphicsObject);
@@ -27,7 +27,7 @@ export default class PsVizParticleSwarm extends HyperVizBase {
           onRemove: (...args) => {
             console.log('TODO: onRemove callback', ...args);
           },
-          onChange: () => console.log('todo: particle swarm on change'),
+          onChange: () => console.log('todo: particle wind on change'),
         };
       },
       remove: graphicsObject => {
@@ -51,9 +51,9 @@ export default class PsVizParticleSwarm extends HyperVizBase {
   disconnectedCallback() {}
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-    if (!this.particleFieldSwarm) {
+    if (!this.particleFlowField) {
       return;
     }
-    this.particleFieldSwarm.setParam(attrName, newVal);
+    this.particleFlowField.setParam(attrName, newVal);
   }
 }

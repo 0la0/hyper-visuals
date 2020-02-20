@@ -316,6 +316,82 @@
 </h-viz-scene>
 ```
 
+### Particle Field
+```html
+<h-viz-scene>
+  <h-viz-particle-emitter
+    position="0 0 0"
+    position-jitter="20 20 20"
+    ttl="100"
+    num="100"
+  >
+    <h-viz-box
+      scale="0.5"
+      color="0 0.5 1"
+    >
+    </h-viz-box>
+    <h-viz-box
+      scale="0.5"
+      color="0 1 0.5"
+    >
+    </h-viz-box>
+  </h-viz-particle-emitter>
+</h-viz-scene>
+```
+
+### Particle Field Wind
+```html
+<h-viz-particle-wind direction="1 0 0">
+  <h-viz-particle-emitter
+    position="0 0 0"
+    position-jitter="20 20 20"
+    ttl="100"
+    num="100"
+  >
+    <h-viz-box
+      scale="0.5"
+      color="0 0.5 1"
+    >
+    </h-viz-box>
+    <h-viz-box
+      scale="0.5"
+      color="0 1 0.5"
+    >
+    </h-viz-box>
+  </h-viz-particle-emitter>
+</h-viz-particle-wind>
+```
+
+### Particle Field Swarm
+```html
+<h-viz-scene>
+  <h-viz-particle-swarm
+    position="addr(part-x) addr(part-y) 0"
+    color="0 1 1"
+    rotation="45 45 45"
+    size="5 5 5"
+  >
+    <h-viz-particle-emitter
+      position="0 0 0"
+      position-jitter="20 20 20"
+      ttl="100"
+      num="100"
+    >
+      <h-viz-box
+        scale="0.5"
+        color="0 0.5 1"
+      >
+      </h-viz-box>
+      <h-viz-box
+        scale="0.5"
+        color="0 1 0.5"
+      >
+      </h-viz-box>
+    </h-viz-particle-emitter>
+  </h-viz-particle-swarm>
+</h-viz-scene>
+```
+
 ---
 ## Complex Examples
 ```html

@@ -3,15 +3,18 @@ import VectorAttribute from '../Attribute/VectorAttribute';
 import { getRandomVector } from '../Math';
 
 // TODO: map this to "speed" attribute
-const coefficientWeight = 0.00001;
+const coefficientWeight = 0.001;
 
 export default class ParticleFieldSwarm {
   constructor() {
     this.paramMap = {
-      goal: new VectorAttribute(this.setGoal.bind(this)),
+      position: new VectorAttribute(this.setPosition.bind(this)),
+      rotation: new VectorAttribute(this.setRotation.bind(this)),
+      size: new VectorAttribute(this.setSize.bind(this)),
+      color: new VectorAttribute(this.setColor.bind(this)),
     };
     this.vars = {
-      goal: new Vector3(),
+      position: new Vector3(),
     };
     this.meta = {
       bestPosition: getRandomVector(100),
@@ -26,7 +29,7 @@ export default class ParticleFieldSwarm {
     particles.forEach(particle => this.applyToParticle(particle, elapsedTime));
 
     particles.forEach(particle => {
-      const distanceFromGoal = this.vars.goal.clone().sub(particle.position).lengthSq();
+      const distanceFromGoal = this.vars.position.clone().sub(particle.position).lengthSq();
       if (distanceFromGoal < particle.meta.bestDistance) {
         particle.meta.bestDistance = distanceFromGoal;
         particle.meta.bestPosition = particle.position.clone();
@@ -66,8 +69,20 @@ export default class ParticleFieldSwarm {
     this.paramMap[name].setValue(value);
   }
 
-  setGoal(x, y, z) {
-    this.vars.goal.set(x, y, z);
+  setPosition(x, y, z) {
+    this.vars.position.set(x, y, z);
     this.needsReset = true;
+  }
+
+  setRotation(x, y, z) {
+    console.log('TODO: setRotation', x, y, z);
+  }
+
+  setSize(x, y, z) {
+    console.log('TODO: setSize', x, y, z);
+  }
+
+  setColor(r, g, b) {
+    console.log('TODO: setColor', r, g, b);
   }
 }

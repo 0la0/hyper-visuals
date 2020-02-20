@@ -55,37 +55,55 @@
   <body>
     <button class="toggle-button" onclick="toggle(event)">toggle</button>
 
+    <h-seq>
+      <h-pat-mod speed="5">
+        <h-pat address="part-x" pattern="-50 50"></h-pat>
+      </h-pat-mod>
+    </h-seq>
+
+    <!-- <h-seq>
+      <h-pat-mod speed="10">
+        <h-pat address="part-y" pattern=", -50 , 50"></h-pat>
+      </h-pat-mod>
+    </h-seq> -->
+
     <h-viz-scene stats>
-      <h-viz-particle-swarm goal="50 50 0">
+      <h-viz-particle-swarm
+        position="addr(part-x) addr(part-y) 0"
+        color="0 1 1"
+        rotation="45 45 45"
+        size="5 5 5"
+      >
         <h-viz-particle-emitter
           position="0 0 0"
           position-jitter="20 20 20"
-          ttl="9000"
-          num="500"
+          ttl="500"
+          num="200"
         >
           <h-viz-box
             scale="0.5"
             color="0 0.5 1"
           >
           </h-viz-box>
-        </h-viz-particle-emitter
-        >
+          </h-viz-box>
+        </h-viz-particle-emitter>
       </h-viz-particle-swarm>
       
-      <!-- <h-viz-filter-afterimage amount="0.99"></h-viz-filter-afterimage>
+      <!-- <h-viz-filter-afterimage amount="0.97"></h-viz-filter-afterimage>
       <h-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
         period="10"
-        type="sin"
+        type="squ"
+        rotation="fn(-1.5*time)"
       >
       </h-viz-filter-oscillate>
       <h-viz-filter-oscillate
         amplitude="0.05"
         frequency="0.005"
         period="10"
-        type="sin"
-        rotation="45"
+        type="saw"
+        rotation="fn(4*time)"
       >
       </h-viz-filter-oscillate> -->
       

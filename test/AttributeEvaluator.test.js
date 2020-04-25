@@ -1,17 +1,19 @@
 import assert from 'assert';
-import { buildFunctionFromUserInput } from '../src/services/AttributeEvaluator';
+import { exposedApi, apiNamespace, } from '../src/services/Attribute/ContinuousApi';
+import { buildFunctionFromUserInput } from '../src/services/Attribute/AttributeEvaluator';
 
 describe('AttributeEvaluator', () => {
   describe('buildFunctionFromUserInput', () => {
     it('evaluates a basic expression', () => {
-      const builtFunction = buildFunctionFromUserInput('2 + 2');
+      const builtFunction = buildFunctionFromUserInput('2 + 2', [], '');
       assert.equal(typeof builtFunction, 'function');
       assert.equal(builtFunction(), 4);
     });
 
     it('evaluates a function with an exposed API function', () => {
-      const builtFunction = buildFunctionFromUserInput('sin(time)');
+      const builtFunction = buildFunctionFromUserInput('sin(time)', exposedApi, apiNamespace);
       assert.equal(builtFunction(0), 0);
     });
   });
 });
+ 

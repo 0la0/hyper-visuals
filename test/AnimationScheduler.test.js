@@ -1,5 +1,5 @@
 import assert from 'assert';
-import AnimationScheduler, { AnimationSchedule } from '../src/services/AnimationScheduler';
+import AnimationScheduler, { AnimationSchedule } from '../src/services/Attribute/AnimationScheduler';
 
 describe('AnimationScheduler', () => {
   it('returns false when empty', () => {

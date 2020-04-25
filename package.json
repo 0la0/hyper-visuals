@@ -4,11 +4,12 @@
   "description": "Graphics and pattern generation with HTML",
   "main": "dist/hypervisuals.js",
   "scripts": {
-    "build": "webpack --mode=development",
+    "build": "webpack --config webpack.config.cjs --mode=development",
     "lint": "eslint src test",
-    "start": "webpack-dev-server --mode=development --inline --colors --progress",
-    "test": "mocha -r esm test/*.test.js"
+    "start": "webpack-dev-server --config webpack.config.cjs --mode=development --inline --colors --progress",
+    "test": "mocha test/*.test.js"
   },
+  "type": "module",
   "author": "Luke Anderson",
   "license": "ISC",
   "dependencies": {
@@ -18,7 +19,6 @@
   },
   "devDependencies": {
     "eslint": "^7.0.0-rc.0",
-    "esm": "^3.2.25",
     "hyper-patterns": "github:0la0/hyper-patterns#v0.1.2",
     "mocha": "^7.1.1",
     "raw-loader": "^4.0.1",

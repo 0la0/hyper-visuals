@@ -1,8 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
-const packageJson = require('./package.json');
-
-const { version } = packageJson;
 
 const webpackConfig = {
   context: path.resolve(__dirname, 'src'),
@@ -36,11 +32,6 @@ const webpackConfig = {
     publicPath:  "/"
   },
   mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
-  plugins: [
-    new webpack.DefinePlugin({
-      VERSION: JSON.stringify(version),
-    }),
-  ]
 };
 
 module.exports = webpackConfig;

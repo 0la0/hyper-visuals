@@ -1,6 +1,6 @@
 import assert from 'assert';
-import { exposedApi, apiNamespace, } from '../src/services/Attribute/ContinuousApi';
-import { buildFunctionFromUserInput } from '../src/services/Attribute/AttributeEvaluator';
+import { exposedApi, apiNamespace, } from '../src/services/Attribute/ContinuousApi.js';
+import { buildFunctionFromUserInput } from '../src/services/Attribute/AttributeEvaluator.js';
 
 describe('AttributeEvaluator', () => {
   describe('buildFunctionFromUserInput', () => {

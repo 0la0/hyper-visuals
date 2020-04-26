@@ -1,5 +1,4 @@
-import { Color, Euler, Quaternion, Vector3 } from 'three';
-import InstancedMesh from '../Geometry/InstanceMeshProvider';
+import { InstancedMesh, Object3D, Vector3 } from 'three';
 import VectorAttribute from '../Attribute/VectorAttribute';
 import ScalarAttribute from '../Attribute/ScalarAttribute';
 import { getRandomSign } from '../Math';
@@ -28,19 +27,13 @@ export default class ParticleField {
     this.uuid = uuid;
     this.ttlJitter = 800;
     this.particleFieldForces = [];
+    this._objectProxy = new Object3D();
   }
 
   init(geometry, material) {
     const numInstances = this.vars.numInstances;
-    this.cluster = new InstancedMesh(
-      geometry,
-      material,
-      numInstances,
-      false,  // dynamic
-      true, // color
-      true,  // uniform scale
-    );
-    this.particles = new Array(numInstances).fill(null).map(_ => new Particle(this.vars.color));
+    this.cluster = new InstancedMesh(geometry, material, numInstances);
+    this.particles = new Array(numInstances).fill(null).map(() => new Particle(this.vars.color));
     this.reset();
   }
 
@@ -62,22 +55,19 @@ export default class ParticleField {
   }
 
   reset() {
-    const _q = new Quaternion(1, 0, 0, 1);
     this.particles.forEach((particle, index) => {
       const particleParams = this._getNewParticleParameters();
       particle.position = particleParams.position;
       particle.rotation = particleParams.rotation;
       particle.scale = particleParams.scale;
       particle.ttl = particleParams.ttl;
-      this.cluster.setQuaternionAt(index , _q.setFromEuler(new Euler().setFromVector3(particle.rotation, 'XYZ')));
-      this.cluster.setPositionAt(index , particle.position);
-      this.cluster.setScaleAt(index , particle.scale);
-      this.cluster.setColorAt(index, particle.color);
+      this._objectProxy.position.copy(particle.position);
+      this._objectProxy.rotation.copy(particle.rotation);
+      this._objectProxy.scale.copy(particle.scale);
+      this._objectProxy.updateMatrix();
+      this.cluster.setMatrixAt(index, this._objectProxy.matrix);
     });
-    this.cluster.needsUpdate('position');
-    this.cluster.needsUpdate('quaternion');
-    this.cluster.needsUpdate('scale');
-    this.cluster.needsUpdate('colors');
+    this.cluster.instanceMatrix.needsUpdate = true;
     if (this.needsReset) {
       this.needsReset = false;
     }
@@ -130,9 +120,13 @@ export default class ParticleField {
         particle.reset();
       }
 
-      this.cluster.setPositionAt(index, particle.position.clone());
+      this._objectProxy.position.copy(particle.position);
+      this._objectProxy.setRotationFromEuler(particle.rotation);
+      this._objectProxy.scale.copy(particle.scale);
+      this._objectProxy.updateMatrix();
+      this.cluster.setMatrixAt(index, this._objectProxy.matrix);
     });
-    this.cluster.needsUpdate('position');
+    this.cluster.instanceMatrix.needsUpdate = true;
   }
 
   dispose() {

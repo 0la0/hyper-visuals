@@ -1,5 +1,4 @@
-import { Color, Euler, Quaternion, Vector3 } from 'three';
-import InstancedMesh from './InstanceMeshProvider';
+import { Euler, InstancedBufferAttribute,   InstancedMesh, Object3D, Vector3, } from 'three';
 import VectorAttribute from '../Attribute/VectorAttribute';
 
 class GeoProperties {
@@ -40,29 +39,23 @@ export default class Repeater {
       'color-mod': new VectorAttribute(this.setColorModulation.bind(this)),
     };
     this.uuid = uuid;
+    this._objectProxy = new Object3D();
   }
 
   init(geometry, material) {
     const numInstances = this.vars.repeat.x * this.vars.repeat.y * this.vars.repeat.z;
-    this.cluster = new InstancedMesh(
-      geometry,
-      material,
-      numInstances,
-      false,  // dynamic
-      true, // color
-      true,  // uniform scale
-    );
-    this.geoProperties = new Array(numInstances).fill(null).map(_ => new GeoProperties());
+    this.cluster = new InstancedMesh(geometry, material, numInstances);
+    this.geoProperties = new Array(numInstances).fill(null).map(() => new GeoProperties());
+    this.colorBuffer = new Float32Array(numInstances * 3);
+    this.cluster.material.vertexColors = true;
     this.reset();
   }
 
   reset() {
-    const _q = new Quaternion(1, 0, 0, 1);
     const center = this.vars.repeat.clone()
       .multiply(this.vars.stride)
       .multiplyScalar(0.5)
       .sub(this.vars.position);
-
     this.geoProperties.forEach((geoProperty, index) => {
       const z = index % this.vars.repeat.z;
       const y = Math.floor(index / this.vars.repeat.z) % this.vars.repeat.y;
@@ -74,13 +67,14 @@ export default class Repeater {
       );
       geoProperty.rotation = this.vars.rotation.clone();
       geoProperty.scale = this.vars.scale.clone();
-      this.cluster.setQuaternionAt(index , _q.setFromEuler(new Euler().setFromVector3(geoProperty.rotation, 'XYZ')));
-      this.cluster.setPositionAt(index , geoProperty.position);
-      this.cluster.setScaleAt(index , geoProperty.scale);
+      this._objectProxy.position.copy(geoProperty.position);
+      this._objectProxy.rotation.copy(geoProperty.rotation);
+      this._objectProxy.scale.copy(geoProperty.scale);
+      this._objectProxy.updateMatrix();
+      this.cluster.setMatrixAt(index, this._objectProxy.matrix);  
     });
-    this.cluster.needsUpdate('position');
-    this.cluster.needsUpdate('quaternion');
-    this.cluster.needsUpdate('scale');
+    this.cluster.instanceMatrix.needsUpdate = true;
+    
     if (this.needsReset) {
       this.needsReset = false;
     }
@@ -157,53 +151,51 @@ export default class Repeater {
       this.reset();
     }
 
-    // TODO: if position changed OR if this.hasPositionModulation
-    // if (!this.vars.position.equals(this.vars.lastPosition)) {
-      const positionDiff = this.vars.lastPosition.clone().sub(this.vars.position);
-      this.geoProperties.forEach((geoProperty, index) => {
-        geoProperty.position.add(positionDiff);
-        const modVector = new Vector3(
-          this.vars.positionMod.x(performanceTime, geoProperty.position),
-          this.vars.positionMod.y(performanceTime, geoProperty.position),
-          this.vars.positionMod.z(performanceTime, geoProperty.position)
-        );
-        const modulatedPosition = geoProperty.position.clone().add(modVector);
-        
-        this.cluster.setPositionAt(index, modulatedPosition);
-      });
-      this.cluster.needsUpdate('position');
-      this.vars.lastPosition = this.vars.position.clone();
-    // }
+    const positionDiff = this.vars.lastPosition.clone().sub(this.vars.position);
+    this.vars.lastPosition = this.vars.position.clone();
 
+    // TODO: short circuit if no change in properties
     this.geoProperties.forEach((geoProperty, index) => {
-      const quat = this.cluster.getQuaternionAt(index);
-      // TODO: short circuit
+      geoProperty.position.add(positionDiff);
+
+      const modulatedPosition = geoProperty.position.clone().add(new Vector3(
+        this.vars.positionMod.x(performanceTime, geoProperty.position),
+        this.vars.positionMod.y(performanceTime, geoProperty.position),
+        this.vars.positionMod.z(performanceTime, geoProperty.position)
+      ));
+      
       const modulatedRotation = geoProperty.rotation.toVector3().add(new Vector3(
         this.vars.rotationMod.x(performanceTime, geoProperty.position),
         this.vars.rotationMod.y(performanceTime, geoProperty.position),
         this.vars.rotationMod.z(performanceTime, geoProperty.position)
       ));
-      this.cluster.setQuaternionAt(index, quat.setFromEuler(new Euler().setFromVector3(modulatedRotation, 'XYZ')));
-      // TODO: short circuit
+      const rotationEuler = new Euler().setFromVector3(modulatedRotation, 'XYZ');
+      
       const modulatedScale = geoProperty.scale.clone().add(new Vector3(
         this.vars.scaleMod.x(performanceTime, geoProperty.position),
         this.vars.scaleMod.y(performanceTime, geoProperty.position),
         this.vars.scaleMod.z(performanceTime, geoProperty.position)
       ));
-      this.cluster.setScaleAt(index, modulatedScale);
-
-      // TODO: short circuit
+      
+      
       const modulatedColor = geoProperty.color.clone().add(new Vector3(
         this.vars.colorMod.r(performanceTime, geoProperty.position),
         this.vars.colorMod.g(performanceTime, geoProperty.position),
         this.vars.colorMod.b(performanceTime, geoProperty.position)
       ));
-      this.cluster.setColorAt(index, new Color(modulatedColor.x, modulatedColor.y, modulatedColor.z));
+      const colorIndex = index * 3;
+      this.colorBuffer[colorIndex] = modulatedColor.x;
+      this.colorBuffer[colorIndex + 1] = modulatedColor.y;
+      this.colorBuffer[colorIndex + 2] = modulatedColor.z;
+      
+      this._objectProxy.position.copy(modulatedPosition);
+      this._objectProxy.setRotationFromEuler(rotationEuler);
+      this._objectProxy.scale.copy(modulatedScale);
+      this._objectProxy.updateMatrix();
+      this.cluster.setMatrixAt(index, this._objectProxy.matrix);
     });
-    this.cluster.needsUpdate('quaternion');
-    this.cluster.needsUpdate('scale');
-    this.cluster.needsUpdate('colors');
-
+    this.cluster.geometry.setAttribute('color', new InstancedBufferAttribute(this.colorBuffer, 3));
+    this.cluster.instanceMatrix.needsUpdate = true;
   }
 
   dispose() {

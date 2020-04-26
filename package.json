@@ -14,8 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "stats.js": "^0.17.0",
-    "three": "^0.107.0",
-    "three-instanced-mesh": "^0.96.2"
+    "three": "^0.115.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0-rc.0",

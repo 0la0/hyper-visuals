@@ -32,7 +32,7 @@ export default class PsVizRepeat extends HyperVizBase {
     
     this.graphicsModel = {  
       connectTo: graphicsObject => {
-        const { geometry, material } = graphicsObject.mesh;  
+        const { geometry, material } = graphicsObject.mesh;
         const vars = {
           position: graphicsObject.mesh.position,
           rotation: graphicsObject.mesh.rotation,

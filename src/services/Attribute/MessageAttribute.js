@@ -2,11 +2,12 @@ import AnimationScheduler, { AnimationSchedule } from './AnimationScheduler';
 
 export default class MessageAttribute {
   constructor(addr, cb = (() => {})) {
-    this.addr = addr;
-    this.eventHandler = (event) => {
-      const message = event.detail;
+    this.eventHandler = ({ detail, }) => {
+      if (detail.address !== addr) {
+        return;
+      }
       this.animationScheduler.submit(
-        new AnimationSchedule(message.time, message.note)
+        new AnimationSchedule(detail.time, detail.note)
       );
     };
     this.cb = cb;

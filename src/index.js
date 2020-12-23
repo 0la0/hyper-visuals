@@ -1,4 +1,5 @@
 import { components, defineComponents } from './components/componentManager';
+import latency from './services/Attribute/AnimationLatency';
 
 function init() {
   defineComponents();
@@ -7,10 +8,11 @@ function init() {
 const PsVizMarkup = {
   components,
   init,
+  setLatencyMilliseconds: latency.setAnimationLatency.bind(latency),
 };
 
 (function() {
   document.addEventListener('DOMContentLoaded', init);
-})()
+})();
 
 export default PsVizMarkup;

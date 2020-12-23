@@ -1,4 +1,5 @@
 import AnimationScheduler, { AnimationSchedule } from './AnimationScheduler';
+import latency from './AnimationLatency';
 
 export default class MessageAttribute {
   constructor(addr, cb = (() => {})) {
@@ -20,7 +21,8 @@ export default class MessageAttribute {
   }
 
   update(elapsedTime, performanceTime) {
-    const scheduledValue = this.animationScheduler.getLatestSchedule(performanceTime);
+    const adjustedTime = performanceTime + latency.getAnimationLatency();
+    const scheduledValue = this.animationScheduler.getLatestSchedule(adjustedTime);
     if (scheduledValue === false) {
       return;
     }
